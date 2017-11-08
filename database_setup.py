@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy import create_engine
 
+# Return a new base class and store its value in the Base variable
 Base = declarative_base()
 
 class User(Base):
@@ -33,12 +34,19 @@ class Item(Base):
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
+# Create (if it doesn't exist) and connect to the database
 engine = create_engine('sqlite:///catalog.db')
 
+# Add the model classes as new tables in the database
 Base.metadata.create_all(engine)
 
+# Bind the engine to the Base class
 Base.metadata.bind = engine
+
+# Create a link of communication between the code executions and the engine
 DBSession = sessionmaker(bind=engine)
+
+# Create an instance of DBSession() and store it in the session variable
 session = DBSession()
 
 def addCategories():
