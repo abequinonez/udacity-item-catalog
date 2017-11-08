@@ -1,8 +1,4 @@
-# Ignore everything...
-*
-
-# Except the following files
-!app.py
-!database_setup.py
-!README.md
-!.gitignore
+__pycache__
+*.DS_Store
+*.pyc
+*.db
