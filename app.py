@@ -3,7 +3,7 @@
 # An item catalog application with a user registration and authentication
 # system, complete with full CRUD operations.
 
-from flask import Flask
+from flask import Flask, render_template
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -22,15 +22,8 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    items = session.query(Item).all()
-    output = ''
-    for i in items:
-        output += '<p><strong>Name:</strong> {}'.format(i.name)
-        output += '<br><strong>Category:</strong> {}'.format(i.category.name)
-        output += '<br><strong>Added by:</strong> {}'.format(i.user.name)
-        output += '<br><strong>Description:</strong> {}'.format(i.description)
-        output += '</p>'
-    return output
+    categories = session.query(Category).all()
+    return render_template('index.html', categories=categories)
 
 
 # Run the server if the script is run directly from the Python interpreter
