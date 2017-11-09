@@ -7,9 +7,11 @@ from sqlalchemy.orm import sessionmaker
 
 from database_setup import Base, User, Item
 
+# Connect to the database and bind the engine to the Base class
 engine = create_engine('sqlite:///catalog.db')
 Base.metadata.bind = engine
 
+# Create a session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 

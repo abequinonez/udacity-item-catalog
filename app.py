@@ -10,9 +10,11 @@ from sqlalchemy.orm import sessionmaker
 
 from database_setup import Base, User, Category, Item
 
+# Connect to the database and bind the engine to the Base class
 engine = create_engine('sqlite:///catalog.db')
 Base.metadata.bind = engine
 
+# Create a session
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
@@ -31,6 +33,7 @@ def index():
     return output
 
 
+# Run the server if the script is run directly from the Python interpreter
 if __name__ == '__main__':
     app.secret_key = '9?\xf8\x9b\xa2\x11\xaas\xf1r\xf3bI\xd27{\xad\xdc[s\x17'
     app.debug = True
