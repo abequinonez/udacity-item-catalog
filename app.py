@@ -18,6 +18,17 @@ session = DBSession()
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    items = session.query(Item).all()
+    output = ''
+    for i in items:
+        output += '<p><strong>Name:</strong> {}'.format(i.name)
+        output += '<br><strong>Category:</strong> {}'.format(i.category.name)
+        output += '<br><strong>Added by:</strong> {}'.format(i.user.name)
+        output += '<br><strong>Description:</strong> {}'.format(i.description)
+        output += '</p>'
+    return output
 
 
 if __name__ == '__main__':
