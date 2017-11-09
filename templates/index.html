@@ -22,10 +22,9 @@
 
                 <!-- Navigation links. They become hidden on smaller viewport sizes. -->
                 <nav class="mdl-navigation mdl-layout--large-screen-only">
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
-                    <a class="mdl-navigation__link" href="">Link</a>
+                    {% for category in categories %}
+                        <a class="mdl-navigation__link" href="">{{category.name}}</a>
+                    {% endfor %}
                 </nav>
             </div>
         </header>
@@ -34,10 +33,9 @@
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">The Noodles Catalog</span>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="">Link</a>
-                <a class="mdl-navigation__link" href="">Link</a>
-                <a class="mdl-navigation__link" href="">Link</a>
-                <a class="mdl-navigation__link" href="">Link</a>
+                {% for category in categories %}
+                    <a class="mdl-navigation__link" href="">{{category.name}}</a>
+                {% endfor %}
             </nav>
         </div>
         <main class="mdl-layout__content">
