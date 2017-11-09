@@ -2,7 +2,16 @@
 #
 # Sample data for populating the item catalog database. Adds a user and items.
 
-from database_setup import *
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from database_setup import Base, User, Item
+
+engine = create_engine('sqlite:///catalog.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 def addSampleData():
     """Adds sample data to the User and Item tables"""
