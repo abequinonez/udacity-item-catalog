@@ -5,7 +5,7 @@
 
 from flask import Flask, render_template
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 
 from database_setup import Base, User, Category, Item
@@ -22,8 +22,17 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
+    # Get the categories
     categories = session.query(Category).all()
-    return render_template('index.html', categories=categories)
+
+    # Get the most recently added items
+    recent_items = session.query(Item).order_by(desc(Item.id)).limit(8).all()
+
+    # Truncate each item's description for its listing
+    for item in recent_items:
+        if len(item.description) > 80:
+            item.description = item.description[:80] + '...'
+    return render_template('index.html', categories=categories, items=recent_items)
 
 
 # Run the server if the script is run directly from the Python interpreter
