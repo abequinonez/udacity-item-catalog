@@ -76,6 +76,50 @@ def addSampleData():
     session.add(item2)
     session.commit()
 
+    # Add an item to the Korean category
+    item3 = Item(
+        user=user1,
+        cat_id=3,
+        name='Janchi Guksu',
+        # Description source: https://en.wikipedia.org/wiki/Janchi-guksu
+        description=(
+            'Janchi-guksu (Korean: 잔치국수) or banquet noodles is a Korean '
+            'noodle dish consisting of wheat flour noodles in a light broth '
+            'made from anchovy and sometimes also dasima (kelp). Beef broth '
+            'may be substituted for the anchovy broth. It is served with a '
+            'sauce made from sesame oil, ganjang, and small amounts of chili '
+            'pepper powder and scallions. Thinly sliced jidan (지단, fried egg)'
+            ', gim (laver), and zucchini are added on top of the dish as '
+            'garnishes.'),
+        image_url=(
+            'https://upload.wikimedia.org/wikipedia/commons/4/42/'
+            'Janchi-guksu.jpg'))
+    session.add(item3)
+    session.commit()
+
+    # Add an item to the Thai category
+    item4 = Item(
+        user=user1,
+        cat_id=4,
+        name='Boat Noodles',
+        # Description source: https://en.wikipedia.org/wiki/Boat_noodles
+        description=(
+            'Boat noodles or kuaitiao ruea (Thai: ก๋วยเตี๋ยวเรือ, pronounced '
+            '[kǔa̯j.tǐa̯w rɯ̄a̯]) is a Thai style noodle dish, which has a '
+            'strong flavor. It contains both pork and beef, as well as dark '
+            'soy sauce, pickled bean curd and some other spices, and is '
+            'normally served with meatballs and pig’s liver. The soup also '
+            'contains nam tok (Thai: น้ำตก), which is cow or pigs blood '
+            'mixed with salt and spices, to season the soup. The color of '
+            'the soup is similar to beef noodles soup (Thai: '
+            'ก๋วยเตี๋ยวเนื้อ) but considerably thicker due to the blood '
+            'added. It is commonly served in a small bowl.'),
+        image_url=(
+            'https://www.saveur.com/sites/saveur.com/files/styles/medium_1x_/'
+            'public/thaiboatnoodlesoup_2000x1500.jpg?itok=OKdjcIuA'))
+    session.add(item4)
+    session.commit()
+
     print('Sample data added!')
 
 # Populate the database with sample data (if it hasn't already been added)
