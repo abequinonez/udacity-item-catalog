@@ -1,5 +1,8 @@
 .mdl-grid {
-    /* Center the grid items (MDL cards) */
+    /*
+    Center the grid items (MDL cards). This solution was discovered from
+    this Stack Overflow post: https://stackoverflow.com/a/32137411
+    */
     justify-content: center;
 }
 
