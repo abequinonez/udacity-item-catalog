@@ -1,0 +1,14 @@
+.mdl-grid {
+    /* Center the grid items (MDL cards) */
+    justify-content: center;
+}
+
+.mdl-card__media img {
+    /* 
+    Fill the div containing the image. Developed with help from this
+    Stack Overflow post: https://stackoverflow.com/a/39150019
+    */
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}

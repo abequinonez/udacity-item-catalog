@@ -46,7 +46,10 @@ def addSampleData():
             'usually kai-lan also known as Chinese kale. Another type of '
             'dumpling known as shui jiao is sometimes served in place of '
             'wonton. It contains prawns, chicken or pork, spring onions with '
-            'some chefs adding mushroom and black fungus.'))
+            'some chefs adding mushroom and black fungus.'),
+        image_url=(
+            'https://steamykitchen.com/wp-content/uploads/2008/08/'
+            'image_2144web2.jpg'))
     session.add(item1)
     session.commit()
 
@@ -66,7 +69,10 @@ def addSampleData():
             'or kakiage (a type of mixed tempura fritter), or aburaage, a '
             'type of deep-fried tofu pockets seasoned with sugar, mirin, and '
             'soy sauce. A thin slice of kamaboko, a halfmoon-shaped fish '
-            'cake, is often added. Shichimi can be added to taste.'))
+            'cake, is often added. Shichimi can be added to taste.'),
+        image_url=(
+            'https://i.pinimg.com/736x/2a/55/d2/2a55d2e86a3bb9e814'
+            'bb46899df9b9f9--easy-poached-eggs-poached-egg-recipes.jpg'))
     session.add(item2)
     session.commit()
 
