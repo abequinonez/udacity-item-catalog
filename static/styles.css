@@ -1,3 +1,12 @@
+.page-content {
+    margin: auto;
+    max-width: 1150px;
+}
+
+.page-heading {
+    margin: 37px 0 8px 13px
+}
+
 .mdl-grid {
     /*
     Center the grid items (MDL cards). This solution was discovered from
