@@ -29,6 +29,17 @@
                 0 5px 5px -3px rgba(0,0,0,.2);
 }
 
+.mdl-cell a {
+    /*
+    Make sure the entire contents of the card is clickable.
+    The following CSS-Tricks page was used as a reference:
+    https://css-tricks.com/snippets/jquery/make-entire-div-clickable
+    */
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
+
 .mdl-card__media img {
     /* 
     Fill the div containing the image. Developed with help from this
