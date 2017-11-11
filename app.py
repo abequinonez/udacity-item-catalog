@@ -3,7 +3,7 @@
 # An item catalog application with a user registration and authentication
 # system, complete with full CRUD operations.
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, redirect, url_for
 
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
@@ -67,6 +67,42 @@ def show_category(category):
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
     return render_template('index.html', categories=categories, items=items)
+
+@app.route('/catalog/<category_arg>/<item_arg>')
+def show_item(category_arg, item_arg):
+    # Check if all characters in the supplied arguments are lowercase. Python
+    # docs and the following Stack Overflow post were used as references:
+    # https://stackoverflow.com/a/33883584
+    if category_arg.islower() and item_arg.islower():
+        pass
+    else:
+        # Convert the supplied arguments to lowercase
+        category_arg = category_arg.lower()
+        item_arg = item_arg.lower()
+
+        # Redirect back to the item page with the lowercased arguments
+        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
+
+    # Get the categories from the database
+    categories = session.query(Category).all()
+
+    # See if there's a matching category name. If so, we'll get its id and
+    # break from the loop below.
+    category_id = None
+    for category in categories:
+        if category_arg == category.name.lower():
+            category_id = category.id
+            break
+
+    # If there's no match, send a 404 error code
+    if category_id is None:
+        abort(404)
+
+    # Get the item with the matching category id and name. Case insensitive
+    # query made possible with .filter() method. Developed with help from
+    # this Stack Overflow post: https://stackoverflow.com/a/2128558
+    item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+    return render_template('item.html', categories=categories, item=item)
 
 
 # Run the server if the script is run directly from the Python interpreter
