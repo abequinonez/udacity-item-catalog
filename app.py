@@ -20,6 +20,11 @@ session = DBSession()
 
 app = Flask(__name__)
 
+# Close the session after each request
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    session.close()
+
 @app.route('/')
 def index():
     # Get the categories
