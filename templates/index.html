@@ -6,7 +6,7 @@
             <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp">
 
                 <!-- Make the entire contents of the card a hyperlink -->
-                <a href="">
+                <a href="{{url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}">
                     <div class="mdl-card__media">
                         <img src="{{item.image_url}}" alt="Noodles image">
                     </div>
