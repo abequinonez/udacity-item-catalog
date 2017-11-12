@@ -30,7 +30,7 @@
                 <nav class="mdl-navigation mdl-layout--large-screen-only">
                     <!-- For each category in the database, build a dynamic navigation link -->
                     {% for category in categories %}
-                        <a class="mdl-navigation__link" href="{{url_for('show_category', category=category.name.lower())}}">{{category.name}}</a>
+                        <a class="mdl-navigation__link" href="{{url_for('show_category', category_arg=category.name.lower())}}">{{category.name}}</a>
                     {% endfor %}
                 </nav>
             </div>
@@ -41,7 +41,7 @@
             <span class="mdl-layout-title"><a href="{{url_for('index')}}">The Noodles Catalog</a></span>
             <nav class="mdl-navigation">
                 {% for category in categories %}
-                    <a class="mdl-navigation__link" href="{{url_for('show_category', category=category.name.lower())}}">{{category.name}}</a>
+                    <a class="mdl-navigation__link" href="{{url_for('show_category', category_arg=category.name.lower())}}">{{category.name}}</a>
                 {% endfor %}
             </nav>
         </div>
