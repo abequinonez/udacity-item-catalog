@@ -1,23 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="page-heading mdl-typography--display-1-color-contrast">Welcome!</div>
-    <div class="mdl-grid">
-        {% for item in items %}
-            <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp">
+    <div class="listings">
+        <div class="page-heading mdl-typography--display-1-color-contrast">Welcome!</div>
+        <div class="mdl-grid">
+            {% for item in items %}
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-card mdl-shadow--2dp">
 
-                <!-- Make the entire contents of the card a hyperlink -->
-                <a href="{{url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}">
-                    <div class="mdl-card__media">
-                        <img src="{{item.image_url}}" alt="Noodles image">
-                    </div>
-                    <div class="mdl-card__title">
-                         <h4 class="mdl-card__title-text">{{item.name}}</h4>
-                    </div>
-                    <div class="mdl-card__supporting-text">
-                        <span class="mdl-typography--font-light mdl-typography--subhead">{{item.description}}</span>
-                    </div>
-                </a>
-            </div>
-        {% endfor %}
+                    <!-- Make the entire contents of the card a hyperlink -->
+                    <a href="{{url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}">
+                        <div class="mdl-card__media">
+                            <img src="{{item.image_url}}" alt="Noodles image">
+                        </div>
+                        <div class="mdl-card__title">
+                             <h4 class="mdl-card__title-text">{{item.name}}</h4>
+                        </div>
+                        <div class="mdl-card__supporting-text">
+                            <span class="mdl-typography--font-light mdl-typography--subhead">{{item.description}}</span>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
