@@ -107,10 +107,16 @@ def show_item(category_arg, item_arg):
     if category_id is None:
         abort(404)
 
-    # Get the item with the matching category id and name. Case insensitive
-    # query made possible with .filter() method. Developed with help from
-    # this Stack Overflow post: https://stackoverflow.com/a/2128558
-    item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+    # Try getting the item with the matching category id and name
+    try:
+        # Case insensitive query made possible with .filter() method.
+        # Developed with help from the following Stack Overflow post:
+        # https://stackoverflow.com/a/2128558
+        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+
+    # If there's no matching item, send a 404 error code
+    except:
+        abort(404)
     return render_template('item.html', categories=categories, item=item)
 
 
