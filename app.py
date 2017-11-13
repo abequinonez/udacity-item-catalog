@@ -37,7 +37,7 @@ def index():
     for item in recent_items:
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
-    return render_template('index.html', categories=categories, items=recent_items)
+    return render_template('listings.html', categories=categories, items=recent_items)
 
 @app.route('/catalog/<category_arg>')
 def show_category(category_arg):
@@ -75,7 +75,7 @@ def show_category(category_arg):
     for item in items:
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
-    return render_template('index.html', categories=categories, items=items)
+    return render_template('listings.html', categories=categories, items=items)
 
 @app.route('/catalog/<category_arg>/<item_arg>')
 def show_item(category_arg, item_arg):
