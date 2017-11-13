@@ -25,6 +25,7 @@ app = Flask(__name__)
 def shutdown_session(exception=None):
     session.close()
 
+# Show the home page (displays most recently added item listings)
 @app.route('/')
 def index():
     # Get the categories
@@ -39,6 +40,7 @@ def index():
             item.description = item.description[:80] + '...'
     return render_template('listings.html', categories=categories, items=recent_items)
 
+# Show the desired category (if it exists)
 @app.route('/catalog/<category_arg>')
 def show_category(category_arg):
     # Check if all characters in the supplied argument are lowercase. Python
@@ -77,6 +79,7 @@ def show_category(category_arg):
             item.description = item.description[:80] + '...'
     return render_template('listings.html', categories=categories, items=items)
 
+# Show the desired item (if it exists under the supplied category)
 @app.route('/catalog/<category_arg>/<item_arg>')
 def show_item(category_arg, item_arg):
     # Check if all characters in the supplied arguments are lowercase. Python
