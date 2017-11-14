@@ -78,18 +78,34 @@ body {
     height: 200px;
 }
 
-.item-content {
+.item-content,
+.new-item {
     margin-top: 44px;
     margin-bottom: 16px;
     padding-left: 16px;
     padding-right: 16px;
 }
 
-.item-content .mdl-grid {
+.item-content .mdl-grid,
+.new-item .mdl-grid {
     max-width: 620px;
+}
+
+.item-content .mdl-grid {
     margin-bottom: 15px;
 }
 
 .item-content .mdl-grid:last-of-type {
     margin-bottom: 0;
+}
+
+.new-item .mdl-card__title-text {
+    color: rgb(66,66,66);
+    font-weight: 700;
+}
+
+.new-item .mdl-textfield {
+    margin-left: 16px;
+    margin-right: 16px;
+    max-width: 90%
 }

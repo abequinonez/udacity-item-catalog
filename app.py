@@ -3,7 +3,7 @@
 # An item catalog application with a user registration and authentication
 # system, complete with full CRUD operations.
 
-from flask import Flask, render_template, abort, redirect, url_for
+from flask import Flask, render_template, abort, redirect, url_for, request
 
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
@@ -121,6 +121,25 @@ def show_item(category_arg, item_arg):
     except:
         abort(404)
     return render_template('item.html', categories=categories, item=item)
+
+# Add a new item
+@app.route('/catalog/new', methods=['GET', 'POST'])
+def new_item():
+    # Get the categories
+    categories = session.query(Category).all()
+    if request.method == 'POST':
+        user = session.query(User).filter_by(name='Robo Admin').one()
+        new_item = Item(
+            user=user,
+            cat_id=request.form['category'],
+            name=request.form['name'],
+            description=request.form['description'],
+            image_url=request.form['image-url'])
+        session.add(new_item)
+        session.commit()
+        return redirect(url_for('index'))
+    else:
+        return render_template('new_item.html', categories=categories)
 
 
 # Run the server if the script is run directly from the Python interpreter
