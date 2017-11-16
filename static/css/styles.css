@@ -127,3 +127,38 @@ body {
     margin-right: 20px;
     margin-bottom: 20px;
 }
+
+.long-text-field {
+    width: 90%;
+}
+
+/*
+Vendor-specific rules for styling the input placeholder. Developed with help
+from the following Stack Overflow post: https://stackoverflow.com/a/2610741
+*/
+::-webkit-input-placeholder {
+    font-weight: 300;
+    color: #bfbfbf;
+}
+
+:-moz-placeholder {
+    font-weight: 300;
+    color: #bfbfbf;
+    opacity: 1;
+}
+
+::-moz-placeholder {
+    font-weight: 300;
+    color: #bfbfbf;
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    font-weight: 300;
+    color: #bfbfbf;
+}
+
+::-ms-input-placeholder {
+    font-weight: 300;
+    color: #bfbfbf;
+}
