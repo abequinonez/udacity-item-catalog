@@ -128,7 +128,6 @@ def new_item():
     # Get the categories
     categories = session.query(Category).all()
     if request.method == 'POST':
-        print(request.form)
         user = session.query(User).filter_by(name='Robo Admin').one()
         new_item = Item(
             user=user,
