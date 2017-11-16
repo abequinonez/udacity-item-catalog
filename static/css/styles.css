@@ -99,6 +99,10 @@ body {
     margin-bottom: 0;
 }
 
+.new-item form {
+    overflow: visible;
+}
+
 .new-item .mdl-card__title-text {
     color: rgb(66,66,66);
     font-weight: 700;

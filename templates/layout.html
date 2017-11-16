@@ -9,11 +9,29 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.amber-orange.min.css">
 
+    <!--
+    getmdl-select. Adds select field component to MDL. Project repository:
+    https://github.com/CreativeIT/getmdl-select
+    -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/lib/getmdl-select.min.css')}}">
+
     <!-- Custom styles -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
 
     <!-- MDL script -->
     <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+
+    <!-- getmdl-select script -->
+    <script defer src="{{url_for('static', filename='js/lib/getmdl-select.min.js')}}"></script>
+
+    <!--
+    The following script extends the capabilities of the getmdl-select script.
+    Basically, the behavior of a select element is mimicked. When a form is
+    submitted, the value of the category input data-val attribute will be
+    assigned to the value of the hidden input element. The server will then
+    end up receiving the value of the hidden input.
+    -->
+    <script defer src="{{url_for('static', filename='js/category-input-value.js')}}"></script>
 
     <!--
     Custom MDL textfield.js implementation. Overrides default behavior by
