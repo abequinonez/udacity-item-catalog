@@ -127,6 +127,8 @@ def show_item(category_arg, item_arg):
 def new_item():
     # Get the categories
     categories = session.query(Category).all()
+
+    # If a POST request is received, process the form data
     if request.method == 'POST':
         user = session.query(User).filter_by(name='Robo Admin').one()
         new_item = Item(
@@ -138,6 +140,8 @@ def new_item():
         session.add(new_item)
         session.commit()
         return redirect(url_for('index'))
+
+    # Otherwise show the new item page
     else:
         return render_template('new_item.html', categories=categories)
 
