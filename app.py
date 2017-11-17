@@ -145,6 +145,57 @@ def new_item():
     else:
         return render_template('new_item.html', categories=categories)
 
+# Edit an item
+@app.route('/catalog/<category_arg>/<item_arg>/edit', methods=['GET', 'POST'])
+def edit_item(category_arg, item_arg):
+    # Check if all characters in the supplied arguments are lowercase. Python
+    # docs and the following Stack Overflow post were used as references:
+    # https://stackoverflow.com/a/33883584
+    if category_arg.islower() and item_arg.islower():
+        pass
+    else:
+        # Convert the supplied arguments to lowercase
+        category_arg = category_arg.lower()
+        item_arg = item_arg.lower()
+
+        # Redirect back to the edit item page with the lowercased arguments
+        return redirect(url_for('edit_item', category_arg=category_arg, item_arg=item_arg))
+
+    # Get the categories from the database
+    categories = session.query(Category).all()
+
+    # See if there's a matching category name. If so, we'll get its id and
+    # break from the loop below.
+    category_id = None
+    for category in categories:
+        if category_arg == category.name.lower():
+            category_id = category.id
+            break
+
+    # If there's no match, send a 404 error code
+    if category_id is None:
+        abort(404)
+
+    # Try getting the item with the matching category id and name
+    try:
+        # Case insensitive query made possible with .filter() method.
+        # Developed with help from the following Stack Overflow post:
+        # https://stackoverflow.com/a/2128558
+        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+
+    # If there's no matching item, send a 404 error code
+    except:
+        abort(404)
+
+    # If a POST request is received, process the form data
+    if request.method == 'POST':
+        # TODO: Add form data processing code
+        pass
+
+    # Otherwise show the edit item page
+    else:
+        return render_template('edit_item.html', categories=categories, item=item)
+
 
 # Run the server if the script is run directly from the Python interpreter
 if __name__ == '__main__':
