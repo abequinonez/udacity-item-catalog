@@ -6,8 +6,19 @@
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">Add a new item</h2>
                 </div>
+
+                <!--
+                getmdl-select select component below. It mimics a select element
+                with Material Design-inspired styling and functionality.
+                -->
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
                     <input class="mdl-textfield__input" type="text" id="category" value="{{categories[0].name}}" data-val="{{categories[0].id}}" readonly tabIndex="-1">
+
+                    <!--
+                    On submission, the following hidden input will receive the data-val value
+                    of the category input above. The server will end up receiving the category
+                    ID, instead of the category name.
+                    -->
                     <input type="hidden" id="category-id" name="category-id">
                     <label for="category">
                         <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
