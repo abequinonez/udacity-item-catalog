@@ -189,8 +189,22 @@ def edit_item(category_arg, item_arg):
 
     # If a POST request is received, process the form data
     if request.method == 'POST':
-        # TODO: Add form data processing code
-        pass
+        # Compare each of the properties below with the form data received. If
+        # there is a difference, assign the new value. Finally, commit the
+        # changes to the database.
+        if request.form['category-id'] != str(item.cat_id):
+            item.cat_id = request.form['category-id']
+        if request.form['name'] != item.name:
+            item.name = request.form['name']
+        if request.form['description'] != item.description:
+            item.description = request.form['description']
+        if request.form['image-url'] != item.image_url:
+            item.image_url = request.form['image-url']
+        session.add(item)
+        session.commit()
+
+        # Redirect to the item page
+        return redirect(url_for('show_item', category_arg=item.category.name, item_arg=item.name))
 
     # Otherwise show the edit item page
     else:
