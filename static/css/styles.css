@@ -101,6 +101,18 @@ body {
     margin-bottom: 0;
 }
 
+/* Edit and delete button styles */
+.item-content .mdl-button {
+    margin-right: 10px;
+    text-transform: none;
+}
+
+/* Make the delete button red with white text */
+.item-content .mdl-button:nth-of-type(2) {
+    background-color: #f44336;
+    color: #fff;
+}
+
 .new-item form,
 .edit-item form {
     overflow: visible;
