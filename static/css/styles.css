@@ -80,7 +80,8 @@ body {
 
 .item-content,
 .new-item,
-.edit-item {
+.edit-item,
+.delete-item {
     margin-top: 44px;
     margin-bottom: 16px;
     padding-left: 16px;
@@ -89,7 +90,8 @@ body {
 
 .item-content .mdl-grid,
 .new-item .mdl-grid,
-.edit-item .mdl-grid {
+.edit-item .mdl-grid,
+.delete-item .mdl-grid {
     max-width: 620px;
 }
 
@@ -101,14 +103,19 @@ body {
     margin-bottom: 0;
 }
 
-/* Edit and delete button styles */
+/* Item page button style rule */
 .item-content .mdl-button {
     margin-right: 10px;
     text-transform: none;
 }
 
+.mdl-button {
+    margin-right: 10px;
+}
+
 /* Make the delete button red with white text */
-.item-content .mdl-button:nth-of-type(2) {
+.item-content .delete-button,
+.delete-item .delete-button {
     background-color: #f44336;
     color: #fff;
 }
@@ -119,7 +126,8 @@ body {
 }
 
 .new-item .mdl-card__title-text,
-.edit-item .mdl-card__title-text {
+.edit-item .mdl-card__title-text,
+.delete-item .mdl-card__title-text {
     color: rgb(66,66,66);
     font-weight: 700;
 }

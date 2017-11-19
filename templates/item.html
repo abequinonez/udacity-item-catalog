@@ -16,7 +16,7 @@
                         <i class="material-icons">edit</i>
                         Edit
                     </a>
-                    <a href="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">
+                    <a href="{{url_for('delete_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp delete-button">
                         <i class="material-icons">delete</i>
                         Delete
                     </a>
