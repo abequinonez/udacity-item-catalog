@@ -12,7 +12,7 @@
                         <li>Category: {{item.category.name}}</li>
                         <li>Added by: {{item.user.name}}</li>
                     </ul>
-                    <a href="" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">
+                    <a href="{{url_for('edit_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">
                         <i class="material-icons">edit</i>
                         Edit
                     </a>
