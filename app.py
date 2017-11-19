@@ -204,7 +204,7 @@ def edit_item(category_arg, item_arg):
         session.commit()
 
         # Redirect to the item page
-        return redirect(url_for('show_item', category_arg=item.category.name, item_arg=item.name))
+        return redirect(url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower()))
 
     # Otherwise show the edit item page
     else:
