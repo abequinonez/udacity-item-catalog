@@ -44,6 +44,7 @@
                 </div>
                 <div class="mdl-card__actions">
                     <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Submit</button>
+                    <a href="{{url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">Cancel</a>                    
                 </div>
             </form>
         </div>
