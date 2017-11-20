@@ -55,22 +55,10 @@ def show_category(category_arg):
         # Redirect back to the category page with the lowercased argument
         return redirect(url_for('show_category', category_arg=category_arg))
 
-    # Get the categories from the database
-    categories = session.query(Category).all()
+    # Try getting the category ID and categories
+    category_id, categories = get_category_id(category_arg)
 
-    # See if there's a matching category name. If so, we'll get its id and
-    # break from the loop below.
-    category_id = None
-    for category in categories:
-        if category_arg == category.name.lower():
-            category_id = category.id
-            break
-
-    # If there's no match, send a 404 error code
-    if category_id is None:
-        abort(404)
-
-    # Get the items with the matching category id
+    # Get the items with the matching category ID
     items = session.query(Item).filter_by(cat_id=category_id).order_by(desc(Item.id)).all()
 
     # Truncate each item's description for its listing
@@ -95,31 +83,8 @@ def show_item(category_arg, item_arg):
         # Redirect back to the item page with the lowercased arguments
         return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
-    # Get the categories from the database
-    categories = session.query(Category).all()
-
-    # See if there's a matching category name. If so, we'll get its id and
-    # break from the loop below.
-    category_id = None
-    for category in categories:
-        if category_arg == category.name.lower():
-            category_id = category.id
-            break
-
-    # If there's no match, send a 404 error code
-    if category_id is None:
-        abort(404)
-
-    # Try getting the item with the matching category id and name
-    try:
-        # Case insensitive query made possible with .filter() method.
-        # Developed with help from the following Stack Overflow post:
-        # https://stackoverflow.com/a/2128558
-        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
-
-    # If there's no matching item, send a 404 error code
-    except:
-        abort(404)
+    # Try getting the requested item (along with the categories)
+    item, categories = get_item(category_arg, item_arg)
     return render_template('item.html', categories=categories, item=item)
 
 # Add a new item
@@ -161,31 +126,8 @@ def edit_item(category_arg, item_arg):
         # Redirect back to the edit item page with the lowercased arguments
         return redirect(url_for('edit_item', category_arg=category_arg, item_arg=item_arg))
 
-    # Get the categories from the database
-    categories = session.query(Category).all()
-
-    # See if there's a matching category name. If so, we'll get its id and
-    # break from the loop below.
-    category_id = None
-    for category in categories:
-        if category_arg == category.name.lower():
-            category_id = category.id
-            break
-
-    # If there's no match, send a 404 error code
-    if category_id is None:
-        abort(404)
-
-    # Try getting the item with the matching category id and name
-    try:
-        # Case insensitive query made possible with .filter() method.
-        # Developed with help from the following Stack Overflow post:
-        # https://stackoverflow.com/a/2128558
-        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
-
-    # If there's no matching item, send a 404 error code
-    except:
-        abort(404)
+    # Try getting the requested item (along with the categories)
+    item, categories = get_item(category_arg, item_arg)
 
     # If a POST request is received, process the form data
     if request.method == 'POST':
@@ -223,34 +165,11 @@ def delete_item(category_arg, item_arg):
         category_arg = category_arg.lower()
         item_arg = item_arg.lower()
 
-        # Redirect back to the edit item page with the lowercased arguments
-        return redirect(url_for('edit_item', category_arg=category_arg, item_arg=item_arg))
+        # Redirect back to the delete item page with the lowercased arguments
+        return redirect(url_for('delete_item', category_arg=category_arg, item_arg=item_arg))
 
-    # Get the categories from the database
-    categories = session.query(Category).all()
-
-    # See if there's a matching category name. If so, we'll get its id and
-    # break from the loop below.
-    category_id = None
-    for category in categories:
-        if category_arg == category.name.lower():
-            category_id = category.id
-            break
-
-    # If there's no match, send a 404 error code
-    if category_id is None:
-        abort(404)
-
-    # Try getting the item with the matching category id and name
-    try:
-        # Case insensitive query made possible with .filter() method.
-        # Developed with help from the following Stack Overflow post:
-        # https://stackoverflow.com/a/2128558
-        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
-
-    # If there's no matching item, send a 404 error code
-    except:
-        abort(404)
+    # Try getting the requested item (along with the categories)
+    item, categories = get_item(category_arg, item_arg)
 
     # If a POST request is received, delete the item and commit the change
     if request.method == 'POST':
@@ -263,6 +182,46 @@ def delete_item(category_arg, item_arg):
     # Otherwise show the delete item page
     else:
         return render_template('delete_item.html', categories=categories, item=item)
+
+def get_category_id(category_arg):
+    """Attempts to retrieve a category ID along with all categories."""
+
+    # Get the categories from the database
+    categories = session.query(Category).all()
+
+    # See if there's a matching category name. If so, we'll get its ID and
+    # break from the loop below.
+    category_id = None
+    for category in categories:
+        if category_arg == category.name.lower():
+            category_id = category.id
+            break
+
+    # If there's no match, send a 404 error code
+    if category_id is None:
+        abort(404)
+
+    # Otherwise return the category ID and categories
+    else:
+        return category_id, categories
+
+def get_item(category_arg, item_arg):
+    """Attempts to retrieve an item along with all categories."""
+
+    # Try getting the category ID and categories
+    category_id, categories = get_category_id(category_arg)
+
+    # Try getting the item with the matching category ID and name
+    try:
+        # Case insensitive query made possible with .filter() method.
+        # Developed with help from the following Stack Overflow post:
+        # https://stackoverflow.com/a/2128558
+        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+        return item, categories
+
+    # If there's no matching item, send a 404 error code
+    except:
+        abort(404)
 
 
 # Run the server if the script is run directly from the Python interpreter
