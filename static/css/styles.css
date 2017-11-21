@@ -6,9 +6,17 @@ body {
     background-color: #fff;
 }
 
-.mdl-layout-title a {
+.mdl-layout-title a,
+.mdl-logo a {
     text-decoration: none;
+}
+
+.mdl-layout-title a {
     color: rgb(66,66,66);
+}
+
+.mdl-logo a {
+    color: #fff;
 }
 
 .mdl-layout__drawer .mdl-layout-title {
