@@ -26,6 +26,18 @@ body {
     border-bottom: 4px solid #ffc107;
 }
 
+/*
+Give the mdl-layout div a minimum viewport height in order to push the footer
+down on pages with short content, at least on initial page load.
+*/
+.mdl-layout {
+    min-height: 100vh;
+}
+
+.hidden {
+    display: none;
+}
+
 .page-content {
     margin: auto;
     max-width: 1150px;

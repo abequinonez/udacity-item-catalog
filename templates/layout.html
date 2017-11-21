@@ -39,6 +39,15 @@
     https://gist.github.com/roshangautam/caefd856f9eb9e26033c0f71eebca837
     -->
     <script defer src="{{url_for('static', filename='js/lib/textfield.js')}}"></script>
+
+    <!--
+    The following script adjusts the MDL footer's position (and visibility)
+    based on vertical scroll. Basically, on pages with no scroll (short
+    content), the footer is appended (moved) directly to the mdl-layout div.
+    On pages with scroll (tall content), the footer is appended directly to
+    the main element. As a result, the footer should always display correctly.
+    -->
+    <script defer src="{{url_for('static', filename='js/footer-fix.js')}}"></script>
 </head>
 <body>
     <!-- Header is visible at all viewport sizes -->
@@ -75,7 +84,7 @@
                 {% block content %}
                 {% endblock %}
             </div>
-            <footer class="mdl-mini-footer">
+            <footer class="mdl-mini-footer hidden">
                 <div class="mdl-mini-footer__left-section">
                     <div class="mdl-logo"><a href="{{url_for('index')}}">The Noodles Catalog</a></div>
                     <ul class="mdl-mini-footer__link-list">
