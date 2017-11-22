@@ -98,12 +98,16 @@ down on pages with short content, at least on initial page load.
     height: 200px;
 }
 
+.listings {
+    margin-bottom: 20px;
+}
+
 .item-content,
 .new-item,
 .edit-item,
 .delete-item {
     margin-top: 44px;
-    margin-bottom: 16px;
+    margin-bottom: 36px;
     padding-left: 16px;
     padding-right: 16px;
 }
