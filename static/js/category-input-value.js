@@ -1,8 +1,14 @@
 // Select the form (only one at most per page)
-form = document.getElementsByTagName('form')[0];
+const form = document.getElementsByTagName('form')[0];
 
-// Only run the code (add an event listener) if a form exists
-if (form) {
+// Select the category input
+const categoryInput = document.getElementById('category');
+
+// Select the hidden (category-id) input
+const hiddenInput = document.getElementById('category-id');
+
+// Only run the code (add an event listener) if a form and hidden input exist
+if (form && hiddenInput) {
     /*
     When the form is submitted, assign the value of the category input data-val
     attribute to the value of the hidden input element. As a result, the
@@ -13,8 +19,6 @@ if (form) {
     https://developer.mozilla.org/en-US/docs/Web/API/Element/getAttribute
     */
     form.addEventListener('submit', function() {
-        categoryInput = document.getElementById('category');
-        hiddenInput = document.getElementById('category-id');
         hiddenInput.value = categoryInput.getAttribute('data-val');
     });
 }
