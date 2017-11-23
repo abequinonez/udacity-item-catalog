@@ -3,8 +3,11 @@
 # An item catalog application with a user registration and authentication
 # system, complete with full CRUD operations.
 
-from flask import Flask, render_template, abort, redirect, url_for, request
+import random
+import string
 
+from flask import Flask, render_template, abort, redirect, url_for, request
+from flask import session as login_session
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 
@@ -24,6 +27,17 @@ app = Flask(__name__)
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     session.close()
+
+# Create an anti-forgery state token and show the login page
+@app.route('/login')
+def show_login():
+    # Get the categories
+    categories = session.query(Category).all()
+
+    state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+            for x in range(32))
+    login_session['state'] = state
+    return render_template('login.html', categories=categories, state=state)
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')

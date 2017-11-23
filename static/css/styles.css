@@ -105,7 +105,8 @@ down on pages with short content, at least on initial page load.
 .item-content,
 .new-item,
 .edit-item,
-.delete-item {
+.delete-item,
+.login {
     margin-top: 44px;
     margin-bottom: 36px;
     padding-left: 16px;
@@ -115,7 +116,8 @@ down on pages with short content, at least on initial page load.
 .item-content .mdl-grid,
 .new-item .mdl-grid,
 .edit-item .mdl-grid,
-.delete-item .mdl-grid {
+.delete-item .mdl-grid,
+.login .mdl-grid {
     max-width: 620px;
 }
 
@@ -151,7 +153,8 @@ down on pages with short content, at least on initial page load.
 
 .new-item .mdl-card__title-text,
 .edit-item .mdl-card__title-text,
-.delete-item .mdl-card__title-text {
+.delete-item .mdl-card__title-text,
+.login .mdl-card__title-text {
     color: rgb(66,66,66);
     font-weight: 700;
 }
