@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block css %}
+    <!--
+    getmdl-select. Adds select field component to MDL. Project repository:
+    https://github.com/CreativeIT/getmdl-select
+    -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/lib/getmdl-select.min.css')}}">
+{% endblock %}
+{% block scripts %}
+    <!-- getmdl-select script -->
+    <script defer src="{{url_for('static', filename='js/lib/getmdl-select.min.js')}}"></script>
+
+    <!--
+    The following script extends the capabilities of the getmdl-select script.
+    Basically, the behavior of a select element is mimicked. When a form is
+    submitted, the value of the category input data-val attribute will be
+    assigned to the value of the hidden input element. The server will then
+    end up receiving the value of the hidden input.
+    -->
+    <script defer src="{{url_for('static', filename='js/category-input-value.js')}}"></script>
+
+    <!--
+    Custom MDL textfield.js implementation. Overrides default behavior by
+    removing is-invalid by default on required text fields. Obtained from:
+    https://gist.github.com/roshangautam/caefd856f9eb9e26033c0f71eebca837
+    -->
+    <script defer src="{{url_for('static', filename='js/lib/textfield.js')}}"></script>
+{% endblock %}
+{% block content %}
+    <div class="{% block form_class %}{% endblock %}">
+        <div class="mdl-grid mdl-grid--no-spacing">
+            <form action="{% block form_action %}{% endblock %}" method="POST" class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">{% block form_title %}{% endblock %}</h2>
+                </div>
+
+                <!--
+                getmdl-select select component below. It mimics a select element
+                with Material Design-inspired styling and functionality.
+                -->
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
+                    <input class="mdl-textfield__input" type="text" id="category" value="{% block cat_val %}{% endblock %}" data-val="{% block cat_data_val %}{% endblock %}" readonly tabIndex="-1">
+
+                    <!--
+                    On submission, the following hidden input will receive the data-val value
+                    of the category input above. The server will end up receiving the category
+                    ID, instead of the category name.
+                    -->
+                    <input type="hidden" id="category-id" name="category-id">
+                    <label for="category">
+                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                    </label>
+                    <label for="category" class="mdl-textfield__label">Category</label>
+                    <ul for="category" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                        {% for category in categories %}
+                            <li class="mdl-menu__item" data-val="{{category.id}}">{{category.name}}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" type="text" id="name" name="name" maxlength="40" value="{% block name_val %}{% endblock %}" placeholder="Beef Noodle Soup" required>
+                    <label class="mdl-textfield__label" for="name">Name</label>
+                </div>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label long-text-field">
+                    <input class="mdl-textfield__input" type="text" id="image-url" name="image-url" maxlength="250" value="{% block image_url_val %}{% endblock %}" placeholder="https://www.website.com/noodles-image.jpg" required>
+                    <label class="mdl-textfield__label" for="image-url">Image URL</label>
+                </div>                
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label long-text-field">
+                    <textarea class="mdl-textfield__input" type="text" rows="4" id="description" name="description" maxlength="800" placeholder="Chinese noodles served with beef and beef broth..." required>{% block description_val %}{% endblock %}</textarea>
+                    <label class="mdl-textfield__label" for="description">Description</label>
+                </div>
+                <div class="mdl-card__actions">
+                    {% block form_buttons %}{% endblock %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

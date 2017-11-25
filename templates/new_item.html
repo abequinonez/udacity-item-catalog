@@ -1,51 +1,15 @@
-{% extends "layout.html" %}
-{% block content %}
-    <div class="new-item">
-        <div class="mdl-grid mdl-grid--no-spacing">
-            <form action="{{url_for('new_item')}}" method="POST" class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
-                <div class="mdl-card__title">
-                    <h2 class="mdl-card__title-text">Add a new item</h2>
-                </div>
+{% extends "form.html" %}
 
-                <!--
-                getmdl-select select component below. It mimics a select element
-                with Material Design-inspired styling and functionality.
-                -->
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select getmdl-select__fullwidth">
-                    <input class="mdl-textfield__input" type="text" id="category" value="{{categories[0].name}}" data-val="{{categories[0].id}}" readonly tabIndex="-1">
+{% block form_class %}new-item{% endblock %}
 
-                    <!--
-                    On submission, the following hidden input will receive the data-val value
-                    of the category input above. The server will end up receiving the category
-                    ID, instead of the category name.
-                    -->
-                    <input type="hidden" id="category-id" name="category-id">
-                    <label for="category">
-                        <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
-                    </label>
-                    <label for="category" class="mdl-textfield__label">Category</label>
-                    <ul for="category" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
-                        {% for category in categories %}
-                            <li class="mdl-menu__item" data-val="{{category.id}}">{{category.name}}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" type="text" id="name" name="name" maxlength="40" placeholder="Beef Noodle Soup" required>
-                    <label class="mdl-textfield__label" for="name">Name</label>
-                </div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label long-text-field">
-                    <input class="mdl-textfield__input" type="text" id="image-url" name="image-url" maxlength="250" placeholder="https://www.website.com/noodles-image.jpg" required>
-                    <label class="mdl-textfield__label" for="image-url">Image URL</label>
-                </div>                
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label long-text-field">
-                    <textarea class="mdl-textfield__input" type="text" rows="4" id="description" name="description" maxlength="800" placeholder="Chinese noodles served with beef and beef broth..." required></textarea>
-                    <label class="mdl-textfield__label" for="description">Description</label>
-                </div>
-                <div class="mdl-card__actions">
-                    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Submit</button>
-                </div>
-            </form>
-        </div>
-    </div>
+{% block form_action %}{{url_for('new_item')}}{% endblock %}
+
+{% block form_title %}Add a new item{% endblock %}
+
+{% block cat_val %}{{categories[0].name}}{% endblock %}
+
+{% block cat_data_val %}{{categories[0].id}}{% endblock %}
+
+{% block form_buttons %}
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">Submit</button>
 {% endblock %}
