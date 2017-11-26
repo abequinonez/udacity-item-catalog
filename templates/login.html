@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
+{% block meta %}
+    <!-- Specify the app's client ID (for Google Sign-In) -->
+    <meta name="google-signin-client_id" content="843402324513-lifjd6vhi33ag76hjkbrv7qo0k3hrpnc.apps.googleusercontent.com">
+{% endblock %}
+{% block scripts %}
+    <!-- jQuery -->
+    <script defer src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <!-- Google Platform Library (for Google Sign-In) -->
+    <script defer src="https://apis.google.com/js/platform.js"></script>
+{% endblock %}
 {% block content %}
     <div class="login">
         <div class="mdl-grid mdl-grid--no-spacing">
@@ -8,6 +19,9 @@
                 </div>
                 <div class="mdl-card__supporting-text">
                     <span class="mdl-typography--font-light mdl-typography--subhead">Current state: {{state}}</span>
+                </div>
+                <div class="mdl-card__actions">
+                    <div class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn"></div>
                 </div>
             </div>
         </div>
