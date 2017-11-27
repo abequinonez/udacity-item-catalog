@@ -17,7 +17,45 @@ $('#signinButton').click(function() {
 });
 
 function signInCallback(authResult) {
-    console.log(authResult);
+    if (authResult['code']) {
+        // Hide the sign-in button after the user receives authorization
+        $('#signinButton').attr('style', 'display: none');
+
+        // Show the MDL loading spinner
+        $('#login-spinner').attr('style', 'display: inline-block');
+
+        // Send the authorization code to the server
+        $.ajax({
+            type: 'POST',
+
+            // Send the request to this route (along with the state token)
+            url: `/gconnect?state=${state}`,
+
+            // Include an X-Requested-With header in case of a CSRF attack
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function(result) {
+                if (result) {
+                    console.log('Successfully logged in!');
+                    window.location.href = '/';
+                } else if (authResult['error']) {
+                    console.log('An error occurred: ' + authResult['error']);
+                } else {
+                    console.log('Failed to log in. Please try again later.');
+                }
+            },
+            error: function() {
+                // In case the request fails
+                console.log('POST request failed. Please try again later.');
+            },
+            processData: false,
+            data: authResult['code']
+        });
+    } else {
+        console.log('Failed to receive an authorization code.')
+    }
 }
 
 function signInFailure(error) {

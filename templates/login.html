@@ -12,6 +12,11 @@
 
     <!-- Login script -->
     <script defer src="{{url_for('static', filename='js/login.js')}}"></script>
+
+    <!-- Declare a JavaScript global variable containing the state token -->
+    <script>
+        const state = '{{state}}';
+    </script>
 {% endblock %}
 {% block content %}
     <div class="login">
@@ -25,6 +30,7 @@
                 </div>
                 <div class="mdl-card__actions">
                     <div id="signinButton" class="g-signin2" data-longtitle="true"></div>
+                    <div id="login-spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
                 </div>
             </div>
         </div>

@@ -214,3 +214,7 @@ from the following Stack Overflow post: https://stackoverflow.com/a/2610741
     font-weight: 300;
     color: #bfbfbf;
 }
+
+#login-spinner {
+    display: none;
+}
