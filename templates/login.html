@@ -8,7 +8,10 @@
     <script defer src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
     <!-- Google Platform Library (for Google Sign-In) -->
-    <script defer src="https://apis.google.com/js/platform.js"></script>
+    <script defer src="https://apis.google.com/js/client:platform.js?onload=start"></script>
+
+    <!-- Login script -->
+    <script defer src="{{url_for('static', filename='js/login.js')}}"></script>
 {% endblock %}
 {% block content %}
     <div class="login">
@@ -21,7 +24,7 @@
                     <span class="mdl-typography--font-light mdl-typography--subhead">Current state: {{state}}</span>
                 </div>
                 <div class="mdl-card__actions">
-                    <div class="g-signin2" data-longtitle="true" data-onsuccess="onSignIn"></div>
+                    <div id="signinButton" class="g-signin2" data-longtitle="true"></div>
                 </div>
             </div>
         </div>
