@@ -5,9 +5,12 @@
 
 import random
 import string
+from oauth2client import client
+import httplib2
+import json
 
 from flask import Flask, render_template, abort, redirect, url_for, request
-from flask import session as login_session
+from flask import session as login_session, make_response
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 
@@ -34,10 +37,89 @@ def show_login():
     # Get the categories
     categories = session.query(Category).all()
 
+    # Create a state token using random letters and numbers
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
             for x in range(32))
+
+    # Store the state token in the login_session object
     login_session['state'] = state
     return render_template('login.html', categories=categories, state=state)
+
+@app.route('/gconnect', methods=['POST'])
+def gconnect():
+    # Make sure the X-Requested-With header was included in the request
+    if not request.headers.get('X-Requested-With'):
+        abort(403)
+
+    # Check to see if there's a mismatch between the state token sent in the
+    # request and the state token stored in the login_session object.
+    if request.args.get('state') != login_session['state']:
+        print('Invalid state token')
+        response = make_response(json.dumps('Invalid state token'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Get the authorization code sent by the request
+    auth_code = request.data
+
+    # Try exchanging the authorization code for an access token, refresh
+    # token, and ID token (all contained in a credentials object).
+    try:
+        # First locate the application client secret file
+        CLIENT_SECRET_FILE = 'client_secret.json'
+
+        # Now make the exchange to get the credentials object
+        credentials = client.credentials_from_clientsecrets_and_code(
+            CLIENT_SECRET_FILE,
+            ['profile', 'email'],
+            auth_code)
+
+    # If there's a problem obtaining the credentials, send a response with a
+    # 401 error code.
+    except:
+        print('Failed to exchange authorization code for credentials.')
+        response = make_response(json.dumps('Failed to exchange authorization code for credentials.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Verify that the access token is valid
+    access_token = credentials.access_token
+    url = ('https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={}'
+          .format(access_token))
+    h = httplib2.Http()
+
+    # In order to use json.loads(), it was necessary to add the .decode()
+    # method. The following Stack Overflow post was helpful in finding this
+    # solution: https://stackoverflow.com/q/42683478
+    result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
+
+    # If there was an error validating the access token, send a 500 error code
+    if result.get('error_description')is not None:
+        print(result.get('error_description'))
+        response = make_response(json.dumps(result.get('error_description')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Make sure the access token is for the intended user
+    g_user_id = credentials.id_token['sub']
+    if result.get('sub') != g_user_id:
+        print('User ID mismatch')
+        response = make_response(json.dumps('User ID mismatch'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Get the client ID from the application client secret file
+    CLIENT_ID = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['client_id']
+
+    # We'll use the client ID to make sure the access token is valid for this
+    # application.
+    if result.get('azp') != CLIENT_ID:
+        print('Client ID mismatch')
+        response = make_response(json.dumps('Client ID mismatch'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    return '<h1>Success!</h1>'
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')
