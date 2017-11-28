@@ -119,6 +119,19 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+    # Now check if the user is already logged in
+    stored_access_token = login_session.get('access_token')
+    stored_g_user_id = login_session.get('g_user_id')
+    if stored_access_token is not None and g_user_id == stored_g_user_id:
+        print('You are already logged in!')
+        response = make_response(json.dumps('You are already logged in!'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Store the access token and Google user ID
+    login_session['access_token'] = credentials.access_token
+    login_session['g_user_id'] = g_user_id
+
     return '<h1>Success!</h1>'
 
 # Show the home page (displays most recently added item listings)
