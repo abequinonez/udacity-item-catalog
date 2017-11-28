@@ -5,14 +5,15 @@
 
 import random
 import string
-from oauth2client import client
-import httplib2
 import json
 
 from flask import Flask, render_template, abort, redirect, url_for, request
 from flask import session as login_session, make_response
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
+from oauth2client import client
+import httplib2
+import requests
 
 from database_setup import Base, User, Category, Item
 
@@ -131,6 +132,17 @@ def gconnect():
     # Store the access token and Google user ID
     login_session['access_token'] = credentials.access_token
     login_session['g_user_id'] = g_user_id
+
+    # Get user info from Google
+    url = 'https://www.googleapis.com/oauth2/v3/userinfo'
+    params = {'access_token': credentials.access_token, 'alt': 'json'}
+    r = requests.get(url, params=params)
+    user_data = r.json()
+
+    # Store user info in the login_session object
+    login_session['given_name'] = user_data['given_name']
+    login_session['email'] = user_data['email']
+    login_session['provider'] = 'google'
 
     return '<h1>Success!</h1>'
 
