@@ -142,7 +142,14 @@ def gconnect():
     # Store user info in the login_session object
     login_session['given_name'] = user_data['given_name']
     login_session['email'] = user_data['email']
+    login_session['picture'] = user_data['picture']
     login_session['provider'] = 'google'
+
+    # Check if the user is already in the database. If not, add them.
+    user_id = get_user_id(login_session['email'])
+    if not user_id:
+        user_id = add_user(login_session)
+    login_session['user_id'] = user_id
 
     return '<h1>Success!</h1>'
 
@@ -303,6 +310,34 @@ def delete_item(category_arg, item_arg):
     # Otherwise show the delete item page
     else:
         return render_template('delete_item.html', categories=categories, item=item)
+
+def get_user_id(email):
+    """Attempts to retrieve a user ID."""
+
+    # Try getting the user with the matching email
+    try:
+        user = session.query(User).filter_by(email=email).one()
+
+        # Return the user ID
+        return user.id
+
+    # Otherwise return None
+    except:
+        return None
+
+def add_user(login_session):
+    """Adds a new user to the database. The user's ID is then returned."""
+
+    # Add the new user using the info stored in the login_session object
+    new_user = User(
+        name=login_session['given_name'],
+        email=login_session['email'],
+        picture=login_session['picture'])
+    session.add(new_user)
+    session.commit()
+
+    # Return the newly added user's ID
+    return new_user.id
 
 def get_category_id(category_arg):
     """Attempts to retrieve a category ID along with all categories."""
