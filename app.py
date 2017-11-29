@@ -46,6 +46,7 @@ def show_login():
     login_session['state'] = state
     return render_template('login.html', categories=categories, state=state)
 
+# Log in using Google Sign-In
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
     # Make sure the X-Requested-With header was included in the request
@@ -152,6 +153,21 @@ def gconnect():
     login_session['user_id'] = user_id
 
     return '<h1>Success!</h1>'
+
+# Log out
+@app.route('/logout')
+def logout():
+    # First make sure that the user is actually logged in
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        print('You are not logged in!')
+    else:
+        # Clear the login_session
+        login_session.clear()
+        print('You have successfully logged out.')
+
+    # Regardless of login status, redirect the user to the home page
+    return redirect(url_for('index'))
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')
