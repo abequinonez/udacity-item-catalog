@@ -3,6 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Specify the app's client ID (for Google Sign-In) -->
+    <meta name="google-signin-client_id" content="843402324513-lifjd6vhi33ag76hjkbrv7qo0k3hrpnc.apps.googleusercontent.com">
     {% block meta %}
     {% endblock %}
     <title>The Noodles Catalog</title>
@@ -27,6 +30,15 @@
     the main element. As a result, the footer should always display correctly.
     -->
     <script defer src="{{url_for('static', filename='js/footer-fix.js')}}"></script>
+
+    <!-- jQuery -->
+    <script defer src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+
+    <!-- Google Platform Library (for Google Sign-In) -->
+    <script defer src="https://apis.google.com/js/client:platform.js?"></script>
+
+    <!-- Login script -->
+    <script defer src="{{url_for('static', filename='js/login.js')}}"></script>
     {% block scripts %}
     {% endblock %}
 </head>

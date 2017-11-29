@@ -1,18 +1,5 @@
 {% extends "layout.html" %}
-{% block meta %}
-    <!-- Specify the app's client ID (for Google Sign-In) -->
-    <meta name="google-signin-client_id" content="843402324513-lifjd6vhi33ag76hjkbrv7qo0k3hrpnc.apps.googleusercontent.com">
-{% endblock %}
 {% block scripts %}
-    <!-- jQuery -->
-    <script defer src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-
-    <!-- Google Platform Library (for Google Sign-In) -->
-    <script defer src="https://apis.google.com/js/client:platform.js?"></script>
-
-    <!-- Login script -->
-    <script defer src="{{url_for('static', filename='js/login.js')}}"></script>
-
     <!-- Declare a JavaScript global variable containing the state token -->
     <script>
         const state = '{{state}}';
