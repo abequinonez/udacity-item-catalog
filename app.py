@@ -218,6 +218,10 @@ def show_item(category_arg, item_arg):
 # Add a new item
 @app.route('/catalog/new', methods=['GET', 'POST'])
 def new_item():
+    # If the user is not logged in, redirect them to the login page
+    if 'username' not in login_session:
+        return redirect(url_for('show_login'))
+
     # Get the categories
     categories = session.query(Category).all()
 
@@ -241,6 +245,10 @@ def new_item():
 # Edit an item
 @app.route('/catalog/<category_arg>/<item_arg>/edit', methods=['GET', 'POST'])
 def edit_item(category_arg, item_arg):
+    # If the user is not logged in, redirect them to the login page
+    if 'username' not in login_session:
+        return redirect(url_for('show_login'))
+
     # Check if all characters in the supplied arguments are lowercase. Python
     # docs and the following Stack Overflow post were used as references:
     # https://stackoverflow.com/a/33883584
@@ -256,6 +264,10 @@ def edit_item(category_arg, item_arg):
 
     # Try getting the requested item (along with the categories)
     item, categories = get_item(category_arg, item_arg)
+
+    # If the user did not add this item, redirect them to the item page
+    if login_session['user_id'] != item.user_id:
+        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, process the form data
     if request.method == 'POST':
@@ -283,6 +295,10 @@ def edit_item(category_arg, item_arg):
 # Delete an item
 @app.route('/catalog/<category_arg>/<item_arg>/delete', methods=['GET', 'POST'])
 def delete_item(category_arg, item_arg):
+    # If the user is not logged in, redirect them to the login page
+    if 'username' not in login_session:
+        return redirect(url_for('show_login'))
+
     # Check if all characters in the supplied arguments are lowercase. Python
     # docs and the following Stack Overflow post were used as references:
     # https://stackoverflow.com/a/33883584
@@ -298,6 +314,10 @@ def delete_item(category_arg, item_arg):
 
     # Try getting the requested item (along with the categories)
     item, categories = get_item(category_arg, item_arg)
+
+    # If the user did not add this item, redirect them to the item page
+    if login_session['user_id'] != item.user_id:
+        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, delete the item and commit the change
     if request.method == 'POST':
