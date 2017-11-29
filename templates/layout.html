@@ -77,15 +77,15 @@
         </main>
     </div>
 
-    <!--
+    {#-
     The following Stack Overflow post helped in deciding to use
     request.endpoint to get the current page:
     https://stackoverflow.com/a/11665879
-    -->
+    -#}
     {% if request.endpoint != 'new_item' %}
-    <a href="{{url_for('new_item')}}" id="new-item-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--primary mdl-shadow--2dp">
-        <i class="material-icons">add</i>
-    </a>
+        <a href="{{url_for('new_item')}}" id="new-item-button" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-js-ripple-effect mdl-button--primary mdl-shadow--2dp">
+            <i class="material-icons">add</i>
+        </a>
     {% endif %}
 </body>
 </html>
