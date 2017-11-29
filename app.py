@@ -227,9 +227,8 @@ def new_item():
 
     # If a POST request is received, process the form data
     if request.method == 'POST':
-        user = session.query(User).filter_by(name='Robo Admin').one()
         new_item = Item(
-            user=user,
+            user_id=login_session['user_id'],
             cat_id=request.form['category-id'],
             name=request.form['name'],
             description=request.form['description'],
