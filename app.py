@@ -140,7 +140,7 @@ def gconnect():
     user_data = r.json()
 
     # Store user info in the login_session object
-    login_session['given_name'] = user_data['given_name']
+    login_session['username'] = user_data['given_name']
     login_session['email'] = user_data['email']
     login_session['picture'] = user_data['picture']
     login_session['provider'] = 'google'
@@ -330,7 +330,7 @@ def add_user(login_session):
 
     # Add the new user using the info stored in the login_session object
     new_user = User(
-        name=login_session['given_name'],
+        name=login_session['username'],
         email=login_session['email'],
         picture=login_session['picture'])
     session.add(new_user)
