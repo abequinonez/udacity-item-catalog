@@ -154,20 +154,25 @@ def gconnect():
 
     return '<h1>Success!</h1>'
 
-# Log out
-@app.route('/logout')
+# Log out. After clicking on the log out link, the GoogleAuth.signOut() method
+# will call a callback function that sends an AJAX POST request to this route.
+# The callback function is called whether or not the user is currently signed
+# in to Google.
+@app.route('/logout', methods=['POST'])
 def logout():
-    # First make sure that the user is actually logged in
+    # Check to see if the user is actually logged in
     access_token = login_session.get('access_token')
     if access_token is None:
-        print('You are not logged in!')
+        response = make_response(json.dumps('You were not logged in!'), 200)
     else:
-        # Clear the login_session
-        login_session.clear()
-        print('You have successfully logged out.')
+        response = make_response(json.dumps('Logout successful'), 200)
 
-    # Regardless of login status, redirect the user to the home page
-    return redirect(url_for('index'))
+    # Either way, clear the login_session
+    login_session.clear()
+
+    # Prepare and send the response
+    response.headers['Content-Type'] = 'application/json'
+    return response
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')
