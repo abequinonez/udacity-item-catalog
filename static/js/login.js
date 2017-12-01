@@ -46,19 +46,16 @@ function signInCallback(authResult) {
                 'X-Requested-With': 'XMLHttpRequest'
             },
             contentType: 'application/octet-stream; charset=utf-8',
-            success: function(result) {
-                if (result) {
-                    // On success, send the user to the home page
-                    window.location.href = '/';
-                } else if (authResult['error']) {
-                    console.log('An error occurred: ' + authResult['error']);
-                } else {
-                    console.log('Failed to log in.');
-                }
+
+            // On success, send the user to the home page
+            success: function() {
+                window.location.href = '/';
             },
+
+            // In case the request fails
             error: function() {
-                // In case the request fails
                 console.log('POST request failed.');
+                resetSignInButton();
             },
             processData: false,
             data: authResult['code']
@@ -70,6 +67,19 @@ function signInCallback(authResult) {
 
 function signInFailure(error) {
     console.log('Failed to sign in with Google: ' + error.error);
+}
+
+/*
+If signing in fails for any reason, sign out the Google user (only from the
+application) and show the sign-in button again after a delay.
+*/
+function resetSignInButton() {
+    setTimeout(function() {
+        auth2.signOut().then(function() {
+            $('#login-spinner').attr('style', 'display: none');
+            $('#signinButton').attr('style', 'display: block');
+        });
+    }, 1000);
 }
 
 /*
