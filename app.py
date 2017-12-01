@@ -51,7 +51,10 @@ def show_login():
 def gconnect():
     # Make sure the X-Requested-With header was included in the request
     if not request.headers.get('X-Requested-With'):
-        abort(403)
+        print('Missing header')
+        response = make_response(json.dumps('Missing header'), 403)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
     # Check to see if there's a mismatch between the state token sent in the
     # request and the state token stored in the login_session object.
@@ -84,16 +87,25 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    # Verify that the access token is valid
-    access_token = credentials.access_token
-    url = ('https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={}'
-          .format(access_token))
-    h = httplib2.Http()
+    # Try verifying that the access token is valid
+    try:
+        access_token = credentials.access_token
+        url = ('https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={}'
+              .format(access_token))
+        h = httplib2.Http()
 
-    # In order to use json.loads(), it was necessary to add the .decode()
-    # method. The following Stack Overflow post was helpful in finding this
-    # solution: https://stackoverflow.com/q/42683478
-    result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
+        # In order to use json.loads(), it was necessary to add the .decode()
+        # method. The following Stack Overflow post was helpful in finding this
+        # solution: https://stackoverflow.com/q/42683478
+        result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
+
+    # If there's a problem trying to verify the access token, send a response
+    # with a 500 error code.
+    except:
+        print('Failed to verify access token')
+        response = make_response(json.dumps('Failed to verify access token'), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
     # If there was an error validating the access token, send a 500 error code
     if result.get('error_description')is not None:
@@ -131,15 +143,24 @@ def gconnect():
         flash('You are already logged in!')
         return response
 
+    # Try getting user info from Google
+    try:
+        url = 'https://www.googleapis.com/oauth2/v3/userinfo'
+        params = {'access_token': credentials.access_token, 'alt': 'json'}
+        r = requests.get(url, params=params)
+        user_data = r.json()
+
+    # If there's a problem trying to get user info, send a response with a 500
+    # error code.
+    except:
+        print('Failed to get user info')
+        response = make_response(json.dumps('Failed to get user info'), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
     # Store the access token and Google user ID
     login_session['access_token'] = credentials.access_token
     login_session['g_user_id'] = g_user_id
-
-    # Get user info from Google
-    url = 'https://www.googleapis.com/oauth2/v3/userinfo'
-    params = {'access_token': credentials.access_token, 'alt': 'json'}
-    r = requests.get(url, params=params)
-    user_data = r.json()
 
     # Store user info in the login_session object
     login_session['username'] = user_data['given_name']
