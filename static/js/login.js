@@ -7,6 +7,11 @@ gapi.load('auth2', function() {
     auth2 = gapi.auth2.init();
 });
 
+/*
+Add a click listener to the Google Sign-In button. If signing in with Google
+is successful, a callback function is called that sends an AJAX POST request
+to the server.
+*/
 $('#signinButton').click(function() {
     /*
     In case of promise failure, call signInFailure(). The following
@@ -16,6 +21,11 @@ $('#signinButton').click(function() {
     auth2.grantOfflineAccess().then(signInCallback, signInFailure);
 });
 
+/*
+Callback function that receives a one-time authorization code from Google
+after signing in. Sends the authorization code, along with the state token
+received from the server, to the server as an AJAX POST request.
+*/
 function signInCallback(authResult) {
     if (authResult['code']) {
         // Hide the sign-in button after the user receives authorization
@@ -38,17 +48,17 @@ function signInCallback(authResult) {
             contentType: 'application/octet-stream; charset=utf-8',
             success: function(result) {
                 if (result) {
-                    console.log('Successfully logged in!');
+                    // On success, send the user to the home page
                     window.location.href = '/';
                 } else if (authResult['error']) {
                     console.log('An error occurred: ' + authResult['error']);
                 } else {
-                    console.log('Failed to log in. Please try again later.');
+                    console.log('Failed to log in.');
                 }
             },
             error: function() {
                 // In case the request fails
-                console.log('POST request failed. Please try again later.');
+                console.log('POST request failed.');
             },
             processData: false,
             data: authResult['code']
