@@ -8,7 +8,7 @@ import string
 import json
 
 from flask import Flask, render_template, abort, redirect, url_for, request
-from flask import session as login_session, make_response
+from flask import session as login_session, make_response, flash
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from oauth2client import client
@@ -128,6 +128,7 @@ def gconnect():
         print('You are already logged in!')
         response = make_response(json.dumps('You are already logged in!'), 200)
         response.headers['Content-Type'] = 'application/json'
+        flash('You are already logged in!')
         return response
 
     # Store the access token and Google user ID
@@ -152,7 +153,12 @@ def gconnect():
         user_id = add_user(login_session)
     login_session['user_id'] = user_id
 
-    return '<h1>Success!</h1>'
+    # Prepare and send the login confirmation response
+    print('Login successful')
+    response = make_response(json.dumps('Login successful'), 200)
+    response.headers['Content-Type'] = 'application/json'
+    flash('Welcome, {}'.format(login_session['username']))
+    return response
 
 # Log out. After clicking on the log out link, the GoogleAuth.signOut() method
 # will call a callback function that sends an AJAX POST request to this route.
@@ -163,8 +169,10 @@ def logout():
     # Check to see if the user is actually logged in
     access_token = login_session.get('access_token')
     if access_token is None:
+        flash_message = 'You were not logged in to begin with!'
         response = make_response(json.dumps('You were not logged in!'), 200)
     else:
+        flash_message = 'You have successfully logged out'
         response = make_response(json.dumps('Logout successful'), 200)
 
     # Either way, clear the login_session
@@ -172,6 +180,7 @@ def logout():
 
     # Prepare and send the response
     response.headers['Content-Type'] = 'application/json'
+    flash(flash_message)
     return response
 
 # Show the home page (displays most recently added item listings)
@@ -241,6 +250,7 @@ def show_item(category_arg, item_arg):
 def new_item():
     # If the user is not logged in, redirect them to the login page
     if 'username' not in login_session:
+        flash('Please login first')
         return redirect(url_for('show_login'))
 
     # Get the categories
@@ -267,6 +277,7 @@ def new_item():
 def edit_item(category_arg, item_arg):
     # If the user is not logged in, redirect them to the login page
     if 'username' not in login_session:
+        flash('Please login first')
         return redirect(url_for('show_login'))
 
     # Check if all characters in the supplied arguments are lowercase. Python
@@ -287,6 +298,7 @@ def edit_item(category_arg, item_arg):
 
     # If the user did not add this item, redirect them to the item page
     if login_session['user_id'] != item.user_id:
+        flash('Sorry, you cannot edit this item')
         return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, process the form data
@@ -317,6 +329,7 @@ def edit_item(category_arg, item_arg):
 def delete_item(category_arg, item_arg):
     # If the user is not logged in, redirect them to the login page
     if 'username' not in login_session:
+        flash('Please login first')
         return redirect(url_for('show_login'))
 
     # Check if all characters in the supplied arguments are lowercase. Python
@@ -337,6 +350,7 @@ def delete_item(category_arg, item_arg):
 
     # If the user did not add this item, redirect them to the item page
     if login_session['user_id'] != item.user_id:
+        flash('Sorry, you cannot delete this item')
         return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, delete the item and commit the change
