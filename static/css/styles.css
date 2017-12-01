@@ -218,3 +218,7 @@ from the following Stack Overflow post: https://stackoverflow.com/a/2610741
 #login-spinner {
     display: none;
 }
+
+.mdl-snackbar__text {
+    margin: auto;
+}

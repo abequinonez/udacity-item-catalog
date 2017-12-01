@@ -39,6 +39,8 @@
 
     <!-- Login script -->
     <script defer src="{{url_for('static', filename='js/login.js')}}"></script>
+
+    <script defer src="{{url_for('static', filename='js/message-toast.js')}}"></script>
     {% block scripts %}
     {% endblock %}
 </head>
@@ -103,5 +105,21 @@
             <i class="material-icons">add</i>
         </a>
     {% endif %}
+
+    {#-
+    If there is a flash message sent by the server, it will be shown by an MDL
+    toast component.
+    -#}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div id="message-toast" class="mdl-js-snackbar mdl-snackbar">
+                <div class="mdl-snackbar__text"></div>
+                <button class="mdl-snackbar__action" type="button"></button>
+            </div>
+            <script>flashMessage = '{{messages[0]}}';</script>
+        {% else %}
+            <script>flashMessage = null;</script>
+        {% endif %}
+    {% endwith %}
 </body>
 </html>
