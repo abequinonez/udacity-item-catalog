@@ -28,8 +28,11 @@ received from the server, to the server as an AJAX POST request.
 */
 function signInCallback(authResult) {
     if (authResult['code']) {
-        // Hide the sign-in button after the user receives authorization
+        /*
+        Hide sign-in buttons after the user receives authorization from Google
+        */
         $('#signinButton').attr('style', 'display: none');
+        $('.fb-login-button').attr('style', 'display: none');
 
         // Show the MDL loading spinner
         $('#login-spinner').attr('style', 'display: inline-block');
@@ -71,13 +74,14 @@ function signInFailure(error) {
 
 /*
 If signing in fails for any reason, sign out the Google user (only from the
-application) and show the sign-in button again after a delay.
+application) and show the sign-in buttons again after a delay.
 */
 function resetSignInButton() {
     setTimeout(function() {
         auth2.signOut().then(function() {
             $('#login-spinner').attr('style', 'display: none');
             $('#signinButton').attr('style', 'display: block');
+            $('.fb-login-button').attr('style', 'display: inline-block');
         });
     }, 1000);
 }
@@ -105,3 +109,96 @@ $('#signOut').click(function(event) {
         });
     });
 });
+
+/*
+Facebook Login code below. Developed with extensive help from the Facebook
+Login docs: https://developers.facebook.com/docs/facebook-login/web
+*/
+window.fbAsyncInit = function() {
+    FB.init({
+        appId      : '301685340342326',
+        cookie     : true,
+        xfbml      : true,
+        version    : 'v2.11'
+    });
+};
+
+(function(d, s, id){
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) {return;}
+    js = d.createElement(s); js.id = id;
+    js.src = "https://connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+/*
+Callback function called after the user is finished interacting with the
+Facebook login dialog window. Calls FB.getLoginStatus() to get the login state
+of the user (returned as a response object). If the user successfully logs in
+to Facebook and connects to the application, Facebook will send a response
+object with a status of 'connected'. A function is then called that sends an
+AJAX POST request to the server (to complete the login process).
+*/
+function fbCheckLoginState() {
+    FB.getLoginStatus(function(response) {
+        if (response.status === 'connected') {
+            fbSendTokenToServer(response);
+        }
+    });
+}
+
+/*
+Completes the login process by sending an access token received from Facebook
+to the server as an AJAX POST request. Also sends the state token received
+from the server.
+*/
+function fbSendTokenToServer(response) {
+    // Hide sign-in buttons after the user connects with Facebook
+    $('#signinButton').attr('style', 'display: none');
+    $('.fb-login-button').attr('style', 'display: none');
+
+    // Show the MDL loading spinner
+    $('#login-spinner').attr('style', 'display: inline-block');
+
+    // Store the access token received from Facebook
+    let accessToken = response.authResponse.accessToken;
+
+    // Send the access token to the server
+    $.ajax({
+        type: 'POST',
+
+        // Send the request to this route (along with the state token)
+        url: `/fbconnect?state=${state}`,
+
+        // Include an X-Requested-With header in case of a CSRF attack
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        contentType: 'application/octet-stream; charset=utf-8',
+
+        // On success, send the user to the home page
+        success: function() {
+            window.location.href = '/';
+        },
+
+        // In case the request fails
+        error: function() {
+            console.log('POST request failed.');
+            fbResetSignInButtons();
+        },
+        processData: false,
+        data: accessToken
+    });
+}
+
+/*
+If the server returns an error response (login process could not be
+completed) show the sign-in buttons again after a delay.
+*/
+function fbResetSignInButtons() {
+    setTimeout(function() {
+        $('#login-spinner').attr('style', 'display: none');
+        $('#signinButton').attr('style', 'display: block');
+        $('.fb-login-button').attr('style', 'display: inline-block');
+    }, 1000);
+}
