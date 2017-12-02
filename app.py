@@ -158,6 +158,13 @@ def gconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+    # If the request for user info is denied by Google, send a 500 error code
+    if user_data.get('error_description')is not None:
+        print(user_data.get('error_description'))
+        response = make_response(json.dumps(user_data.get('error_description')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
     # Store the access token and Google user ID
     login_session['access_token'] = credentials.access_token
     login_session['g_user_id'] = g_user_id
