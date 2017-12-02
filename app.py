@@ -35,6 +35,11 @@ def shutdown_session(exception=None):
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
 def show_login():
+    # If the user is already logged in, redirect them to the login page
+    if login_session.get('username') is not None:
+        flash('You are already logged in!')
+        return redirect(url_for('index'))
+
     # Get the categories
     categories = session.query(Category).all()
 
