@@ -12,31 +12,34 @@
                 <div class="mdl-card__title">
                     <h2 class="mdl-card__title-text">Login</h2>
                 </div>
-                <div class="mdl-card__supporting-text">
-                    <span class="mdl-typography--font-light mdl-typography--subhead">Current state: {{state}}</span>
-                </div>
                 <div class="mdl-card__actions">
                     <!-- Google Sign-In button -->
-                    <div id="signinButton"
-                         class="g-signin2"
-                         data-longtitle="true"
-                         data-theme="dark"
-                         data-width="250"
-                         data-height="40">
+                    <div class="button-container">
+                        <div id="signinButton"
+                             class="g-signin2"
+                             data-longtitle="true"
+                             data-theme="dark"
+                             data-width="250"
+                             data-height="40">
+                        </div>
                     </div>
-                    <div id="login-spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
+                    <div class="spinner-container">
+                        <div id="login-spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
+                    </div>
 
                     <!-- Facebook Login button -->
-                    <div class="fb-login-button"
-                         data-width="250"
-                         data-max-rows="1"
-                         data-size="large"
-                         data-button-type="continue_with"
-                         data-show-faces="false"
-                         data-auto-logout-link="false"
-                         data-use-continue-as="false"
-                         data-scope="public_profile,email"
-                         onlogin="fbCheckLoginState();">
+                    <div class="button-container">
+                        <div class="fb-login-button"
+                             data-width="250"
+                             data-max-rows="1"
+                             data-size="large"
+                             data-button-type="continue_with"
+                             data-show-faces="false"
+                             data-auto-logout-link="false"
+                             data-use-continue-as="false"
+                             data-scope="public_profile,email"
+                             onlogin="fbCheckLoginState();">
+                        </div>
                     </div>
                 </div>
             </div>

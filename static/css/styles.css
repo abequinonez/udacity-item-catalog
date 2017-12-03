@@ -215,12 +215,27 @@ from the following Stack Overflow post: https://stackoverflow.com/a/2610741
     color: #bfbfbf;
 }
 
+.mdl-snackbar__text {
+    margin: auto;
+}
+
+.login .mdl-card__actions {
+    margin: 0 auto;
+    width: unset;
+    text-align: center;
+}
+
+.spinner-container {
+    height: 28px;
+}
+
 #login-spinner {
     display: none;
 }
 
-.mdl-snackbar__text {
-    margin: auto;
+.button-container {
+    width: 250px;
+    height: 40px;
 }
 
 /* Google Sign-In button styles below */
