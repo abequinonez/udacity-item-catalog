@@ -16,8 +16,22 @@
                     <span class="mdl-typography--font-light mdl-typography--subhead">Current state: {{state}}</span>
                 </div>
                 <div class="mdl-card__actions">
+                    <!-- Google Sign-In button -->
                     <div id="signinButton" class="g-signin2" data-longtitle="true"></div>
                     <div id="login-spinner" class="mdl-spinner mdl-js-spinner is-active"></div>
+
+                    <!-- Facebook Login button -->
+                    <div class="fb-login-button"
+                         data-width="250"
+                         data-max-rows="1"
+                         data-size="large"
+                         data-button-type="continue_with"
+                         data-show-faces="false"
+                         data-auto-logout-link="false"
+                         data-use-continue-as="false"
+                         data-scope="public_profile,email"
+                         onlogin="fbCheckLoginState();">
+                    </div>
                 </div>
             </div>
         </div>
