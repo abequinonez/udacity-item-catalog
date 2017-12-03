@@ -223,6 +223,40 @@ from the following Stack Overflow post: https://stackoverflow.com/a/2610741
     margin: auto;
 }
 
+/* Google Sign-In button styles below */
+#signinButton {
+    width: 250px;
+    height: 40px;
+}
+
+.abcRioButton {
+    border-radius: 3px !important;
+    box-shadow: none !important;
+}
+
+.abcRioButton:hover {
+    box-shadow: none !important;
+}
+
+.abcRioButtonContents {
+    font-size: 16px !important;
+}
+
+/*
+Google Sign-In button text replacement solution developed with help from
+the following resource:
+https://blog.escapecreative.com/how-to-replace-text-with-css
+*/
+.abcRioButtonContents span {
+    display: none;
+}
+
+.abcRioButtonContents:after {
+    content: "Continue with Google";
+}
+/* End of Google Sign-In button styles */
+
+/* Facebook Login button styles */
 .fb-login-button {
     width: 250px;
     height: 40px;
