@@ -278,6 +278,36 @@ def fbconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
+    # Try getting the user's profile picture
+    try:
+        url = 'https://graph.facebook.com/me/picture'
+        params = {'redirect': 'false', 'width': '200', 'height': '200','access_token': token}
+        r = requests.get(url, params=params)
+        picture_data = r.json()
+
+    # If there's a problem trying to get the picture, send a response with a
+    # 500 error code.
+    except:
+        print('Failed to get user picture')
+        response = make_response(json.dumps('Failed to get user picture'), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # If the request for the picture is denied by Facebook, send a 500 error code
+    if picture_data.get('error')is not None:
+        print(picture_data['error'].get('message'))
+        response = make_response(json.dumps(picture_data['error'].get('message')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Store user info in the login_session object
+    login_session['access_token'] = token
+    login_session['fb_user_id'] = user_data['id']
+    login_session['username'] = user_data['first_name']
+    login_session['email'] = user_data['email']
+    login_session['picture'] = picture_data['data']['url']
+    login_session['provider'] = 'facebook'
+
 
     # TODO: Add code for checking if the user is already in the database
 
@@ -286,7 +316,7 @@ def fbconnect():
     print('Login successful')
     response = make_response(json.dumps('Login successful'), 200)
     response.headers['Content-Type'] = 'application/json'
-    # flash('Welcome, {}'.format(login_session['username']))
+    flash('Welcome, {}'.format(login_session['username']))
     return response
 
 # Log out. After clicking on the log out link, the GoogleAuth.signOut() method
