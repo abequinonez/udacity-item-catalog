@@ -247,7 +247,27 @@ def fbconnect():
     # Store the long-lived token
     token = result.get('access_token')
 
-    # TODO: Add code for getting user info from Facebook
+    # Try getting user info from Facebook
+    try:
+        url = 'https://graph.facebook.com/me'
+        params = {'fields': 'id,first_name,email', 'access_token': token}
+        r = requests.get(url, params=params)
+        user_data = r.json()
+
+    # If there's a problem trying to get user info, send a response with a 500
+    # error code.
+    except:
+        print('Failed to get user info')
+        response = make_response(json.dumps('Failed to get user info'), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # If the request for user info is denied by Facebook, send a 500 error code
+    if user_data.get('error')is not None:
+        print(user_data['error'].get('message'))
+        response = make_response(json.dumps(user_data['error'].get('message')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
 
 
     # TODO: Add code for checking if the user is already in the database
