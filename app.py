@@ -247,6 +247,15 @@ def fbconnect():
     # Store the long-lived token
     token = result.get('access_token')
 
+    # Now check if the user is already logged in
+    stored_access_token = login_session.get('access_token')
+    if stored_access_token is not None:
+        print('You are already logged in!')
+        response = make_response(json.dumps('You are already logged in!'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        flash('You are already logged in!')
+        return response
+
     # Try getting user info from Facebook
     try:
         url = 'https://graph.facebook.com/me'
