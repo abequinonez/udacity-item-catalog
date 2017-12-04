@@ -193,6 +193,73 @@ def gconnect():
     flash('Welcome, {}'.format(login_session['username']))
     return response
 
+# Log in using Facebook Login
+@app.route('/fbconnect', methods=['POST'])
+def fbconnect():
+    # Make sure the X-Requested-With header was included in the request
+    if not request.headers.get('X-Requested-With'):
+        print('Missing header')
+        response = make_response(json.dumps('Missing header'), 403)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Check to see if there's a mismatch between the state token sent in the
+    # request and the state token stored in the login_session object.
+    if request.args.get('state') != login_session['state']:
+        print('Invalid state token')
+        response = make_response(json.dumps('Invalid state token'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Get the access token sent by the request
+    access_token = request.data.decode('utf-8')
+
+    # Try exchanging the access token for a long-lived server-side token
+    try:
+        # First locate the application client secret file
+        CLIENT_SECRET_FILE = 'fb_client_secret.json'
+
+        # Get the app ID and app secret from the client secret file
+        APP_ID = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['app_id']
+        APP_SECRET = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['app_secret']
+        url = (
+            'https://graph.facebook.com/oauth/access_token?grant_type='
+            'fb_exchange_token&client_id={}&client_secret={}&'
+            'fb_exchange_token={}'.format(APP_ID, APP_SECRET, access_token))
+        h = httplib2.Http()
+        result = json.loads(h.request(url, 'GET')[1].decode('utf-8'))
+
+    # If there's a problem obtaining the long-lived token, send a response
+    # with a 401 error code.
+    except:
+        print('Failed to exchange access token for long-lived token.')
+        response = make_response(json.dumps('Failed to exchange access token for long-lived token.'), 401)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # If there was an error making the exchange, send a 500 error code
+    if result.get('error')is not None:
+        print(result['error'].get('message'))
+        response = make_response(json.dumps(result['error'].get('message')), 500)
+        response.headers['Content-Type'] = 'application/json'
+        return response
+
+    # Store the long-lived token
+    token = result.get('access_token')
+
+    # TODO: Add code for getting user info from Facebook
+
+
+    # TODO: Add code for checking if the user is already in the database
+
+
+    # Prepare and send the login confirmation response
+    print('Login successful')
+    response = make_response(json.dumps('Login successful'), 200)
+    response.headers['Content-Type'] = 'application/json'
+    # flash('Welcome, {}'.format(login_session['username']))
+    return response
+
 # Log out. After clicking on the log out link, the GoogleAuth.signOut() method
 # will call a callback function that sends an AJAX POST request to this route.
 # The callback function is called whether or not the user is currently signed
