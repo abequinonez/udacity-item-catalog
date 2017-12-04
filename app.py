@@ -308,9 +308,11 @@ def fbconnect():
     login_session['picture'] = picture_data['data']['url']
     login_session['provider'] = 'facebook'
 
-
-    # TODO: Add code for checking if the user is already in the database
-
+    # Check if the user is already in the database. If not, add them.
+    user_id = get_user_id(login_session['email'])
+    if not user_id:
+        user_id = add_user(login_session)
+    login_session['user_id'] = user_id
 
     # Prepare and send the login confirmation response
     print('Login successful')
