@@ -54,7 +54,7 @@ function signInCallback(authResult) {
             // In case the request fails
             error: function() {
                 console.log('POST request failed.');
-                resetSignInButton();
+                resetSignInButtons('google');
             },
             processData: false,
             data: authResult['code']
@@ -66,18 +66,6 @@ function signInCallback(authResult) {
 
 function signInFailure(error) {
     console.log('Failed to sign in with Google: ' + error.error);
-}
-
-/*
-If signing in fails for any reason, sign out the Google user (only from the
-application) and show the sign-in buttons again after a delay.
-*/
-function resetSignInButton() {
-    setTimeout(function() {
-        auth2.signOut().then(function() {
-            showSigninButtons();
-        });
-    }, 1000);
 }
 
 /*
@@ -163,21 +151,11 @@ function fbSendTokenToServer(response) {
         // In case the request fails
         error: function() {
             console.log('POST request failed.');
-            fbResetSignInButtons();
+            resetSignInButtons('facebook');
         },
         processData: false,
         data: accessToken
     });
-}
-
-/*
-If the server returns an error response (login process could not be
-completed) show the sign-in buttons again after a delay.
-*/
-function fbResetSignInButtons() {
-    setTimeout(function() {
-        showSigninButtons();
-    }, 1000);
 }
 
 /*
@@ -203,6 +181,25 @@ function fbLogOut() {
     });
 }
 // End of Facebook Login code
+
+/*
+If there's an error or problem contacting the server (login process could not
+be completed), sign the user out of the appropriate provider and show the
+sign-in buttons again after a delay.
+*/
+function resetSignInButtons(provider) {
+    setTimeout(function() {
+        if (provider === 'google') {
+            auth2.signOut().then(function() {
+                showSigninButtons();
+            });
+        } else if (provider === 'facebook') {
+            FB.logout(function () {
+                showSigninButtons();
+            });
+        }
+    }, 1000);
+}
 
 // Hide the sign-in buttons and show the MDL loading spinner
 function hideSigninButtons() {
