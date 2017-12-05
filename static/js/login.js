@@ -31,11 +31,7 @@ function signInCallback(authResult) {
         /*
         Hide sign-in buttons after the user receives authorization from Google
         */
-        $('#signinButton').attr('style', 'display: none');
-        $('.fb-login-button').attr('style', 'display: none');
-
-        // Show the MDL loading spinner
-        $('#login-spinner').attr('style', 'display: inline-block');
+        hideSigninButtons();
 
         // Send the authorization code to the server
         $.ajax({
@@ -79,9 +75,7 @@ application) and show the sign-in buttons again after a delay.
 function resetSignInButton() {
     setTimeout(function() {
         auth2.signOut().then(function() {
-            $('#login-spinner').attr('style', 'display: none');
-            $('#signinButton').attr('style', 'display: block');
-            $('.fb-login-button').attr('style', 'display: inline-block');
+            showSigninButtons();
         });
     }, 1000);
 }
@@ -143,11 +137,7 @@ from the server.
 */
 function fbSendTokenToServer(response) {
     // Hide sign-in buttons after the user connects with Facebook
-    $('#signinButton').attr('style', 'display: none');
-    $('.fb-login-button').attr('style', 'display: none');
-
-    // Show the MDL loading spinner
-    $('#login-spinner').attr('style', 'display: inline-block');
+    hideSigninButtons();
 
     // Store the access token received from Facebook
     let accessToken = response.authResponse.accessToken;
@@ -186,9 +176,7 @@ completed) show the sign-in buttons again after a delay.
 */
 function fbResetSignInButtons() {
     setTimeout(function() {
-        $('#login-spinner').attr('style', 'display: none');
-        $('#signinButton').attr('style', 'display: block');
-        $('.fb-login-button').attr('style', 'display: inline-block');
+        showSigninButtons();
     }, 1000);
 }
 
@@ -215,6 +203,20 @@ function fbLogOut() {
     });
 }
 // End of Facebook Login code
+
+// Hide the sign-in buttons and show the MDL loading spinner
+function hideSigninButtons() {
+    $('#signinButton').attr('style', 'display: none');
+    $('.fb-login-button').attr('style', 'display: none');
+    $('#login-spinner').attr('style', 'display: inline-block');
+}
+
+// Show the sign-in buttons and hide the MDL loading spinner
+function showSigninButtons() {
+    $('#login-spinner').attr('style', 'display: none');
+    $('#signinButton').attr('style', 'display: block');
+    $('.fb-login-button').attr('style', 'display: inline-block');
+}
 
 // Click handler that calls provider-specific logout function
 $('#logout-link').click(function(event) {
