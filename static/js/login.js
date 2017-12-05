@@ -202,3 +202,49 @@ function fbResetSignInButtons() {
         $('.fb-login-button').attr('style', 'display: inline-block');
     }, 1000);
 }
+
+/*
+Log out the current Facebook user from the application (may also log the user
+out of Facebook). Then send a POST request to the server to fully
+log them out of the application (clear the login_session).
+*/
+$('#fbLogOut').click(function(event) {
+    // Prevent the default anchor tag behavior
+    event.preventDefault();
+
+    // First get the user's status
+    FB.getLoginStatus(function(response) {
+        // If the user is connected, call FB.logout()
+        if (response.status === 'connected') {
+            FB.logout(function () {
+                // Then send the POST request to the server
+                $.ajax({
+                    type: 'POST',
+                    url: '/logout',
+                    success: function() {
+                        // On success, send the user to the home page
+                        window.location.href = '/';
+                    },
+                    error: function(jqXHR, status, error) {
+                        console.log('Error signing out: ' + error);
+                    }
+                });
+            });
+        }
+
+        // Otherwise just send the POST request to the server
+        else {
+            $.ajax({
+                type: 'POST',
+                url: '/logout',
+                success: function() {
+                    // On success, send the user to the home page
+                    window.location.href = '/';
+                },
+                error: function(jqXHR, status, error) {
+                    console.log('Error signing out: ' + error);
+                }
+            });           
+        }
+    });
+});
