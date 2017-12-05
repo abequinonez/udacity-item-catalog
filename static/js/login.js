@@ -96,17 +96,8 @@ $('#signOut').click(function(event) {
     event.preventDefault();
     let auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
-        $.ajax({
-            type: 'POST',
-            url: '/logout',
-            success: function() {
-                // On success, send the user to the home page
-                window.location.href = '/';
-            },
-            error: function(jqXHR, status, error) {
-                console.log('Error signing out: ' + error);
-            }
-        });
+        // Send the POST request to the server
+        logOutPostRequest();
     });
 });
 
@@ -218,33 +209,32 @@ $('#fbLogOut').click(function(event) {
         if (response.status === 'connected') {
             FB.logout(function () {
                 // Then send the POST request to the server
-                $.ajax({
-                    type: 'POST',
-                    url: '/logout',
-                    success: function() {
-                        // On success, send the user to the home page
-                        window.location.href = '/';
-                    },
-                    error: function(jqXHR, status, error) {
-                        console.log('Error signing out: ' + error);
-                    }
-                });
+                logOutPostRequest();
             });
         }
 
         // Otherwise just send the POST request to the server
         else {
-            $.ajax({
-                type: 'POST',
-                url: '/logout',
-                success: function() {
-                    // On success, send the user to the home page
-                    window.location.href = '/';
-                },
-                error: function(jqXHR, status, error) {
-                    console.log('Error signing out: ' + error);
-                }
-            });           
+            logOutPostRequest();
         }
     });
 });
+
+/*
+Send a POST request to the server to fully log the user out of the
+application. Upon receiving the request, the server will clear the
+login_session. The user will then be redirected to the home page.
+*/
+function logOutPostRequest() {
+    $.ajax({
+        type: 'POST',
+        url: '/logout',
+        success: function() {
+            // On success, send the user to the home page
+            window.location.href = '/';
+        },
+        error: function(jqXHR, status, error) {
+            console.log('Error logging out: ' + error);
+        }
+    });
+}
