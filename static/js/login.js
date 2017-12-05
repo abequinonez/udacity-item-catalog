@@ -23,8 +23,9 @@ $('#signinButton').click(function() {
 
 /*
 Callback function that receives a one-time authorization code from Google
-after signing in. Sends the authorization code, along with the state token
-received from the server, to the server as an AJAX POST request.
+after signing in. Calls a function that sends the authorization code, along
+with the state token received from the server, to the server as an AJAX POST
+request.
 */
 function signInCallback(authResult) {
     if (authResult['code']) {
@@ -34,31 +35,7 @@ function signInCallback(authResult) {
         hideSigninButtons();
 
         // Send the authorization code to the server
-        $.ajax({
-            type: 'POST',
-
-            // Send the request to this route (along with the state token)
-            url: `/gconnect?state=${state}`,
-
-            // Include an X-Requested-With header in case of a CSRF attack
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            contentType: 'application/octet-stream; charset=utf-8',
-
-            // On success, send the user to the home page
-            success: function() {
-                window.location.href = '/';
-            },
-
-            // In case the request fails
-            error: function() {
-                console.log('POST request failed.');
-                resetSignInButtons('google');
-            },
-            processData: false,
-            data: authResult['code']
-        });
+        loginPostRequest(authResult['code'], '/gconnect', 'google');
     } else {
         console.log('Failed to receive an authorization code.')
     }
@@ -119,9 +96,8 @@ function fbCheckLoginState() {
 }
 
 /*
-Completes the login process by sending an access token received from Facebook
-to the server as an AJAX POST request. Also sends the state token received
-from the server.
+Completes the login process by calling a function that sends an access token
+received from Facebook to the server as an AJAX POST request.
 */
 function fbSendTokenToServer(response) {
     // Hide sign-in buttons after the user connects with Facebook
@@ -131,31 +107,7 @@ function fbSendTokenToServer(response) {
     let accessToken = response.authResponse.accessToken;
 
     // Send the access token to the server
-    $.ajax({
-        type: 'POST',
-
-        // Send the request to this route (along with the state token)
-        url: `/fbconnect?state=${state}`,
-
-        // Include an X-Requested-With header in case of a CSRF attack
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        },
-        contentType: 'application/octet-stream; charset=utf-8',
-
-        // On success, send the user to the home page
-        success: function() {
-            window.location.href = '/';
-        },
-
-        // In case the request fails
-        error: function() {
-            console.log('POST request failed.');
-            resetSignInButtons('facebook');
-        },
-        processData: false,
-        data: accessToken
-    });
+    loginPostRequest(accessToken, '/fbconnect', 'facebook');
 }
 
 /*
@@ -181,6 +133,39 @@ function fbLogOut() {
     });
 }
 // End of Facebook Login code
+
+/*
+Completes the login process by sending the necessary code or access token
+received from the authentication provider to the server as an AJAX POST
+request. Also sends the state token received from the server.
+*/
+function loginPostRequest(data, route, provider) {
+    $.ajax({
+        type: 'POST',
+
+        // Send the request to this route (along with the state token)
+        url: `${route}?state=${state}`,
+
+        // Include an X-Requested-With header in case of a CSRF attack
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        contentType: 'application/octet-stream; charset=utf-8',
+
+        // On success, send the user to the home page
+        success: function() {
+            window.location.href = '/';
+        },
+
+        // In case the request fails
+        error: function() {
+            console.log('POST request failed.');
+            resetSignInButtons(provider);
+        },
+        processData: false,
+        data: data
+    });
+}
 
 /*
 If there's an error or problem contacting the server (login process could not
