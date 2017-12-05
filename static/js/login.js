@@ -91,15 +91,13 @@ Sign out the current Google user from the application (without the inconvenience
 of signing out of Google). Then send a POST request to the server to fully
 sign them out of the application (clear the login_session).
 */
-$('#signOut').click(function(event) {
-    // Prevent the default anchor tag behavior
-    event.preventDefault();
-    let auth2 = gapi.auth2.getAuthInstance();
+function gSignOut() {
     auth2.signOut().then(function () {
         // Send the POST request to the server
         logOutPostRequest();
     });
-});
+}
+// End of Google Sign-In code
 
 /*
 Facebook Login code below. Developed with extensive help from the Facebook
@@ -199,10 +197,7 @@ Log out the current Facebook user from the application (may also log the user
 out of Facebook). Then send a POST request to the server to fully
 log them out of the application (clear the login_session).
 */
-$('#fbLogOut').click(function(event) {
-    // Prevent the default anchor tag behavior
-    event.preventDefault();
-
+function fbLogOut() {
     // First get the user's status
     FB.getLoginStatus(function(response) {
         // If the user is connected, call FB.logout()
@@ -218,6 +213,19 @@ $('#fbLogOut').click(function(event) {
             logOutPostRequest();
         }
     });
+}
+// End of Facebook Login code
+
+// Click handler that calls provider-specific logout function
+$('#logout-link').click(function(event) {
+    // Prevent the default anchor tag behavior
+    event.preventDefault();
+
+    if (authProvider === 'google') {
+        gSignOut();
+    } else if (authProvider === 'facebook') {
+        fbLogOut();
+    }
 });
 
 /*
