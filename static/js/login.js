@@ -12,7 +12,7 @@ Add a click listener to the Google Sign-In button. If signing in with Google
 is successful, a callback function is called that sends an AJAX POST request
 to the server.
 */
-$('#signinButton').click(function() {
+$('#g-sign-in-button').click(function() {
     /*
     In case of promise failure, call gSignInFailure(). The following
     MDN page was used as a reference:
@@ -188,7 +188,7 @@ function resetSignInButtons(provider) {
 
 // Hide the sign-in buttons and show the MDL loading spinner
 function hideSignInButtons() {
-    $('#signinButton').attr('style', 'display: none');
+    $('#g-sign-in-button').attr('style', 'display: none');
     $('.fb-login-button').attr('style', 'display: none');
     $('#login-spinner').attr('style', 'display: inline-block');
 }
@@ -196,7 +196,7 @@ function hideSignInButtons() {
 // Show the sign-in buttons and hide the MDL loading spinner
 function showSignInButtons() {
     $('#login-spinner').attr('style', 'display: none');
-    $('#signinButton').attr('style', 'display: block');
+    $('#g-sign-in-button').attr('style', 'display: block');
     $('.fb-login-button').attr('style', 'display: inline-block');
 }
 
