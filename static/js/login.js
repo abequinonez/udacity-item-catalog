@@ -14,11 +14,11 @@ to the server.
 */
 $('#signinButton').click(function() {
     /*
-    In case of promise failure, call signInFailure(). The following
+    In case of promise failure, call gSignInFailure(). The following
     MDN page was used as a reference:
     https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
     */
-    auth2.grantOfflineAccess().then(signInCallback, signInFailure);
+    auth2.grantOfflineAccess().then(gSignInCallback, gSignInFailure);
 });
 
 /*
@@ -27,12 +27,12 @@ after signing in. Calls a function that sends the authorization code, along
 with the state token received from the server, to the server as an AJAX POST
 request.
 */
-function signInCallback(authResult) {
+function gSignInCallback(authResult) {
     if (authResult['code']) {
         /*
         Hide sign-in buttons after the user receives authorization from Google
         */
-        hideSigninButtons();
+        hideSignInButtons();
 
         // Send the authorization code to the server
         loginPostRequest(authResult['code'], '/gconnect', 'google');
@@ -41,7 +41,7 @@ function signInCallback(authResult) {
     }
 }
 
-function signInFailure(error) {
+function gSignInFailure(error) {
     console.log('Failed to sign in with Google: ' + error.error);
 }
 
@@ -53,7 +53,7 @@ sign them out of the application (clear the login_session).
 function gSignOut() {
     auth2.signOut().then(function () {
         // Send the POST request to the server
-        logOutPostRequest();
+        logoutPostRequest();
     });
 }
 // End of Google Sign-In code
@@ -101,7 +101,7 @@ received from Facebook to the server as an AJAX POST request.
 */
 function fbSendTokenToServer(response) {
     // Hide sign-in buttons after the user connects with Facebook
-    hideSigninButtons();
+    hideSignInButtons();
 
     // Store the access token received from Facebook
     let accessToken = response.authResponse.accessToken;
@@ -115,20 +115,20 @@ Log out the current Facebook user from the application (may also log the user
 out of Facebook). Then send a POST request to the server to fully
 log them out of the application (clear the login_session).
 */
-function fbLogOut() {
+function fbLogout() {
     // First get the user's status
     FB.getLoginStatus(function(response) {
         // If the user is connected, call FB.logout()
         if (response.status === 'connected') {
             FB.logout(function () {
                 // Then send the POST request to the server
-                logOutPostRequest();
+                logoutPostRequest();
             });
         }
 
         // Otherwise just send the POST request to the server
         else {
-            logOutPostRequest();
+            logoutPostRequest();
         }
     });
 }
@@ -176,25 +176,25 @@ function resetSignInButtons(provider) {
     setTimeout(function() {
         if (provider === 'google') {
             auth2.signOut().then(function() {
-                showSigninButtons();
+                showSignInButtons();
             });
         } else if (provider === 'facebook') {
             FB.logout(function () {
-                showSigninButtons();
+                showSignInButtons();
             });
         }
     }, 1000);
 }
 
 // Hide the sign-in buttons and show the MDL loading spinner
-function hideSigninButtons() {
+function hideSignInButtons() {
     $('#signinButton').attr('style', 'display: none');
     $('.fb-login-button').attr('style', 'display: none');
     $('#login-spinner').attr('style', 'display: inline-block');
 }
 
 // Show the sign-in buttons and hide the MDL loading spinner
-function showSigninButtons() {
+function showSignInButtons() {
     $('#login-spinner').attr('style', 'display: none');
     $('#signinButton').attr('style', 'display: block');
     $('.fb-login-button').attr('style', 'display: inline-block');
@@ -208,7 +208,7 @@ $('#logout-link').click(function(event) {
     if (authProvider === 'google') {
         gSignOut();
     } else if (authProvider === 'facebook') {
-        fbLogOut();
+        fbLogout();
     }
 });
 
@@ -217,7 +217,7 @@ Send a POST request to the server to fully log the user out of the
 application. Upon receiving the request, the server will clear the
 login_session. The user will then be redirected to the home page.
 */
-function logOutPostRequest() {
+function logoutPostRequest() {
     $.ajax({
         type: 'POST',
         url: '/logout',
