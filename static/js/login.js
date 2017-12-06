@@ -201,7 +201,7 @@ function showSignInButtons() {
 }
 
 // Click handler that calls provider-specific logout function
-$('#logout-link').click(function(event) {
+$('.logout-link').click(function(event) {
     // Prevent the default anchor tag behavior
     event.preventDefault();
 
