@@ -8,7 +8,8 @@
     <meta name="google-signin-client_id" content="843402324513-lifjd6vhi33ag76hjkbrv7qo0k3hrpnc.apps.googleusercontent.com">
     {% block meta %}
     {% endblock %}
-    <title>The Noodles Catalog</title>
+    <title>Noodlelog</title>
+    <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One" rel="stylesheet">
 
     <!-- Material Design Lite -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -50,7 +51,7 @@
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Header title links to the home page -->
-                <span class="mdl-layout-title"><a href="{{url_for('index')}}">The Noodles Catalog</a></span>
+                <span class="mdl-layout-title"><a href="{{url_for('index')}}">Noodlelog</a></span>
 
                 <!-- Spacer aligns navigation links to the right -->
                 <div class="mdl-layout-spacer"></div>
@@ -67,7 +68,7 @@
 
         <!-- Drawer. It is hidden by default at all viewport sizes. -->
         <div class="mdl-layout__drawer">
-            <span class="mdl-layout-title"><a href="{{url_for('index')}}">The Noodles Catalog</a></span>
+            <span class="mdl-layout-title"><a href="{{url_for('index')}}">Noodlelog</a></span>
             <nav class="mdl-navigation">
                 <span class="mdl-navigation__link">My Account</span>
                 {% if session['username'] %}
@@ -89,14 +90,14 @@
             </div>
             <footer class="mdl-mini-footer hidden">
                 <div class="mdl-mini-footer__left-section">
-                    <div class="mdl-logo"><a href="{{url_for('index')}}">The Noodles Catalog</a></div>
+                    <div class="mdl-logo"><a href="{{url_for('index')}}">Noodlelog</a></div>
                     <ul class="mdl-mini-footer__link-list">
                         {% if session['username'] %}
                             <li><a class="logout-link" href="">Log Out</a></li>
                         {% else %}
                             <li><a href="{{url_for('show_login')}}">Log In</a></li>
                         {%  endif %}
-                        <li><a href="{{url_for('new_item')}}">Add a new item</a></li>
+                        <li><a href="{{url_for('new_item')}}">Add a New Item</a></li>
                     </ul>
                 </div>
             </footer>

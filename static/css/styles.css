@@ -12,16 +12,12 @@ body {
 }
 
 .mdl-layout-title a {
+    font-family: "Alfa Slab One", cursive;
     color: rgb(66,66,66);
 }
 
-.mdl-logo a {
-    color: #fff;
-}
-
-.mdl-layout__drawer .mdl-layout-title {
-    padding: 0;
-    text-align: center;
+.mdl-layout__header-row .mdl-layout-title {
+    font-size: 24px;
 }
 
 .mdl-layout__header .mdl-navigation__link {
@@ -32,6 +28,20 @@ body {
 
 .mdl-layout__header .mdl-navigation__link:hover {
     border-bottom: 4px solid #ffc107;
+}
+
+.mdl-layout__drawer .mdl-layout-title {
+    padding-top: 16px;
+    font-size: 29px;
+    line-height: 1.2;
+}
+
+.mdl-layout__drawer span.mdl-navigation__link {
+    color: #ffc107 !important;
+}
+
+.mdl-layout__drawer span.mdl-navigation__link:hover {
+    background-color: unset !important;
 }
 
 /*
@@ -166,6 +176,10 @@ down on pages with short content, at least on initial page load.
     max-width: 90%
 }
 
+.mdl-logo a {
+    color: #fff;
+}
+
 #new-item-button {
     /*
     Place the new item button in the lower right corner on top of all
@@ -275,4 +289,20 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 .fb-login-button {
     width: 250px;
     height: 40px;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 1024px) {
+    .mdl-layout__header-row {
+        margin: auto;
+        padding: 0;
+    }
+
+    .mdl-layout--large-screen-only {
+        display: none;
+    }
+
+    .mdl-layout__drawer .mdl-layout-title {
+        display: none;
+    }
 }
