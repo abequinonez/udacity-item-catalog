@@ -321,10 +321,9 @@ def fbconnect():
     flash('Welcome, {}'.format(login_session['username']))
     return response
 
-# Log out. After clicking on the log out link, the GoogleAuth.signOut() method
-# will call a callback function that sends an AJAX POST request to this route.
-# The callback function is called whether or not the user is currently signed
-# in to Google.
+# Log out. After clicking on a link with the .logout-link class, the
+# associated click handler will call the provider-specific logout function
+# that sends an AJAX POST request to this route.
 @app.route('/logout', methods=['POST'])
 def logout():
     # Check to see if the user is actually logged in
