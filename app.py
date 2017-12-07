@@ -446,6 +446,9 @@ def new_item():
             image_url=request.form['image-url'])
         session.add(new_item)
         session.commit()
+
+        # Redirect to the home page (with a flash message)
+        flash('New item added')
         return redirect(url_for('index'))
 
     # Otherwise show the new item page
@@ -497,7 +500,8 @@ def edit_item(category_arg, item_arg):
         session.add(item)
         session.commit()
 
-        # Redirect to the item page
+        # Redirect to the item page (with a flash message)
+        flash('Edit successful')
         return redirect(url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower()))
 
     # Otherwise show the edit item page
@@ -538,7 +542,8 @@ def delete_item(category_arg, item_arg):
         session.delete(item)
         session.commit()
 
-        # After deleting the item, redirect to the home page
+        # After deleting the item, redirect to the home page (with a flash message)
+        flash('Item deleted')
         return redirect(url_for('index'))
 
     # Otherwise show the delete item page
