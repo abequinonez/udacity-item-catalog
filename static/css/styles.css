@@ -36,6 +36,28 @@ body {
     line-height: 1.2;
 }
 
+.profile-info {
+    margin-top: 12px;
+    padding: 16px 40px;
+    background-color: #36454f;
+    line-height: 1;
+}
+
+.profile-picture img {
+    width: 80px;
+    border-radius: 40px;
+}
+
+.profile-name,
+.profile-email {
+    padding-top: 8px;
+    color: #fff;
+}
+
+.profile-name {
+    font-weight: 700;
+}
+
 .mdl-layout__drawer span.mdl-navigation__link {
     color: #ffc107 !important;
 }
@@ -304,5 +326,10 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 
     .mdl-layout__drawer .mdl-layout-title {
         display: none;
+    }
+
+    .profile-info {
+        margin-top: 0;
+        padding: 16px;
     }
 }

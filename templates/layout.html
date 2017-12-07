@@ -69,6 +69,15 @@
         <!-- Drawer. It is hidden by default at all viewport sizes. -->
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title"><a href="{{url_for('index')}}">Noodlelog</a></span>
+            {% if session['username'] %}
+                <div class="profile-info">
+                    <div class="profile-picture">
+                        <img src="{{session['picture']}}">
+                    </div>
+                    <div class="profile-name">{{session['username']}}</div>
+                    <div class="profile-email">{{session['email']}}</div>
+                </div>
+            {%  endif %}
             <nav class="mdl-navigation">
                 <span class="mdl-navigation__link">My Account</span>
                 {% if session['username'] %}
