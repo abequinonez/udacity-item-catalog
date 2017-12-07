@@ -54,12 +54,13 @@ body {
     color: #fff;
 }
 
-.profile-name {
+.profile-name,
+.mdl-layout__drawer span.mdl-navigation__link {
     font-weight: 700;
 }
 
 .mdl-layout__drawer span.mdl-navigation__link {
-    color: #ffc107 !important;
+    color: #424242 !important;
 }
 
 .mdl-layout__drawer span.mdl-navigation__link:hover {
