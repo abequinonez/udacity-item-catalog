@@ -81,6 +81,7 @@
             <nav class="mdl-navigation">
                 <span class="mdl-navigation__link">My Account</span>
                 {% if session['username'] %}
+                    <a class="mdl-navigation__link" href="{{url_for('show_user_items')}}">My Noodles</a>
                     <a class="mdl-navigation__link" href="{{url_for('new_item')}}">Add a New Item</a>
                     <a class="mdl-navigation__link logout-link" href="">Log Out</a>
                 {% else %}
@@ -101,12 +102,13 @@
                 <div class="mdl-mini-footer__left-section">
                     <div class="mdl-logo"><a href="{{url_for('index')}}">Noodlelog</a></div>
                     <ul class="mdl-mini-footer__link-list">
+                        <li><a href="{{url_for('show_user_items')}}">My Noodles</a></li>
+                        <li><a href="{{url_for('new_item')}}">Add a New Item</a></li>
                         {% if session['username'] %}
                             <li><a class="logout-link" href="">Log Out</a></li>
                         {% else %}
                             <li><a href="{{url_for('show_login')}}">Log In</a></li>
                         {%  endif %}
-                        <li><a href="{{url_for('new_item')}}">Add a New Item</a></li>
                     </ul>
                 </div>
             </footer>
