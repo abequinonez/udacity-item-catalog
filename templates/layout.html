@@ -75,7 +75,7 @@
                         <img src="{{session['picture']}}">
                     </div>
                     <div class="profile-name">{{session['username']}}</div>
-                    <div class="profile-email">{{session['email']}}</div>
+                    <div class="profile-email">{{session['email']|truncate(24, True, '...', 0)}}</div>
                 </div>
             {%  endif %}
             <nav class="mdl-navigation">
