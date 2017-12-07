@@ -358,6 +358,26 @@ def index():
             item.description = item.description[:80] + '...'
     return render_template('listings.html', categories=categories, items=recent_items)
 
+# Show the items that have been added by the user (if the user is logged in)
+@app.route('/my-noodles')
+def show_user_items():
+    # If the user is not logged in, redirect them to the login page
+    if 'username' not in login_session:
+        flash('Please login first')
+        return redirect(url_for('show_login'))
+
+    # Get the categories
+    categories = session.query(Category).all()
+
+    # Get the items added by the user
+    user_items = session.query(Item).filter_by(user_id=login_session['user_id']).order_by(desc(Item.id)).all()
+
+    # Truncate each item's description for its listing
+    for item in user_items:
+        if len(item.description) > 80:
+            item.description = item.description[:80] + '...'
+    return render_template('listings.html', categories=categories, items=user_items)
+
 # Show the desired category (if it exists)
 @app.route('/catalog/<category_arg>')
 def show_category(category_arg):
