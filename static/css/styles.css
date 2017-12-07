@@ -344,4 +344,8 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
         margin-top: 0;
         padding: 16px;
     }
+
+    #new-item-button {
+        display: none;
+    }
 }
