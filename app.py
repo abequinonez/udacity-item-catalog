@@ -321,9 +321,9 @@ def fbconnect():
     flash('Welcome, {}'.format(login_session['username']))
     return response
 
-# Log out. After clicking on a link with the .logout-link class, the
-# associated click handler will call the provider-specific logout function
-# that sends an AJAX POST request to this route.
+# Log out. After clicking on a link (which is actually a button element) with
+# the .logout-link class, the associated click handler will call the provider-
+# specific logout function that sends an AJAX POST request to this route.
 @app.route('/logout', methods=['POST'])
 def logout():
     # Check to see if the user is actually logged in
