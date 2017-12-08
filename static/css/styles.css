@@ -67,6 +67,11 @@ body {
     background-color: unset !important;
 }
 
+/*
+Style a button with the logout-link class so that it resembles an anchor tag.
+Developed with help from the following Stack Overflow post:
+https://stackoverflow.com/a/8525002
+*/
 .logout-link {
     padding: 0;
     border: 0;
