@@ -355,11 +355,13 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 /* Media query for smaller screens */
 @media screen and (max-width: 1024px) {
     .mdl-layout__header-row {
-        display: block;
         margin: auto;
         padding: 0;
-        height: 100%;
         text-align: center;
+    }
+
+    .mdl-layout__header-row .mdl-layout-title {
+        width: 100%;
     }
 
     .mdl-layout--large-screen-only {
