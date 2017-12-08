@@ -83,7 +83,7 @@
                 {% if session['username'] %}
                     <a class="mdl-navigation__link" href="{{url_for('show_user_items')}}">My Noodles</a>
                     <a class="mdl-navigation__link" href="{{url_for('new_item')}}">Add a New Item</a>
-                    <a class="mdl-navigation__link logout-link" href="">Log Out</a>
+                    <button type="button" class="mdl-navigation__link logout-link">Log Out</button>
                 {% else %}
                     <a class="mdl-navigation__link" href="{{url_for('show_login')}}">Log In</a>
                 {%  endif %}
@@ -106,7 +106,7 @@
                         <li><a href="{{url_for('show_user_items')}}">My Noodles</a></li>
                         <li><a href="{{url_for('new_item')}}">Add a New Item</a></li>
                         {% if session['username'] %}
-                            <li><a class="logout-link" href="">Log Out</a></li>
+                            <li><button type="button" class="logout-link">Log Out</button></li>
                         {% else %}
                             <li><a href="{{url_for('show_login')}}">Log In</a></li>
                         {%  endif %}

@@ -67,6 +67,27 @@ body {
     background-color: unset !important;
 }
 
+.logout-link {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+}
+
+.mdl-layout__drawer .logout-link {
+    line-height: 24px;
+}
+
+.mdl-mini-footer .logout-link {
+    display: inline;
+    line-height: 16px;
+    white-space: nowrap;
+}
+
 .drawer-separator {
     margin: 8px 0;
     height: 1px;
