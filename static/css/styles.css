@@ -308,6 +308,7 @@ from the following Stack Overflow post: https://stackoverflow.com/a/2610741
 }
 
 .button-container {
+    margin: auto;
     width: 250px;
     height: 40px;
 }
