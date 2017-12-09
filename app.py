@@ -356,7 +356,10 @@ def index():
     for item in recent_items:
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
-    return render_template('listings.html', categories=categories, items=recent_items)
+
+    # Create a string variable to store the page heading
+    page_heading = 'Newest noodles'
+    return render_template('listings.html', categories=categories, items=recent_items, page_heading=page_heading)
 
 # Show the items that have been added by the user (if the user is logged in)
 @app.route('/my-noodles')
@@ -376,7 +379,10 @@ def show_user_items():
     for item in user_items:
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
-    return render_template('listings.html', categories=categories, items=user_items)
+
+    # Create a string variable to store the page heading
+    page_heading = 'My noodles'
+    return render_template('listings.html', categories=categories, items=user_items, page_heading=page_heading)
 
 # Show the desired category (if it exists)
 @app.route('/catalog/<category_arg>')
@@ -403,7 +409,10 @@ def show_category(category_arg):
     for item in items:
         if len(item.description) > 80:
             item.description = item.description[:80] + '...'
-    return render_template('listings.html', categories=categories, items=items)
+
+    # Create a string variable to store the page heading
+    page_heading = '{} noodles'.format(category_arg.title())
+    return render_template('listings.html', categories=categories, items=items, page_heading=page_heading)
 
 # Show the desired item (if it exists under the supplied category)
 @app.route('/catalog/<category_arg>/<item_arg>')
