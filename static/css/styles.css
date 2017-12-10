@@ -408,7 +408,7 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
     height: 40px;
 }
 
-/* Media query for smaller screens */
+/* Media queries for various viewport sizes */
 @media screen and (max-width: 1024px) {
     .mdl-layout__header-row {
         margin: auto;
@@ -435,6 +435,18 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 
     #new-item-button {
         display: none;
+    }
+}
+
+@media screen and (min-width: 583px) {
+    .listings .mdl-card {
+        width: 267.5px;
+    }
+}
+
+@media screen and (min-width: 380px) and (max-width: 582px) {
+    .listings .mdl-card {
+        width: 340px;
     }
 }
 
