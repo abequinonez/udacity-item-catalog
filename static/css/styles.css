@@ -189,7 +189,7 @@ down on pages with short content, at least on initial page load.
 }
 
 .item-content .mdl-grid {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .item-content .mdl-grid:last-of-type {
@@ -230,7 +230,61 @@ down on pages with short content, at least on initial page load.
 .edit-item .mdl-textfield {
     margin-left: 16px;
     margin-right: 16px;
-    max-width: 90%
+    max-width: 90%;
+}
+
+.item-content-image-container {
+    max-height: 215px;
+}
+
+.item-content-image-container img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.item-content .mdl-card__supporting-text {
+    padding: 20px;
+    width: unset;
+    color: inherit;
+}
+
+.item-content h4 {
+    margin: 0 0 16px;
+}
+
+.item-content-name {
+    font-weight: 700;
+}
+
+.item-content ul {
+    padding: 0;
+    list-style-type: none;
+    font-size: 16px;
+    color: rgba(0,0,0,.54);
+}
+
+.item-content li {
+    padding-bottom: 8px;
+}
+
+.item-content li:last-of-type {
+    padding-bottom: 0;
+}
+
+.item-content-info {
+    color: rgb(66,66,66);
+}
+
+.item-content-description-card {
+    min-height: unset;
+}
+
+.item-content-description-text {
+    margin: 0;
+    font-size: 18px;
+    line-height: 28px;
+    hyphens: auto;
 }
 
 .mdl-mini-footer {
@@ -381,5 +435,16 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 
     #new-item-button {
         display: none;
+    }
+}
+
+@media screen and (max-width: 479px) {
+    .item-content .mdl-card__supporting-text {
+        padding: 16px;
+    }
+
+    .item-content-description-text {
+        font-size: 16px;
+        line-height: 26px;
     }
 }
