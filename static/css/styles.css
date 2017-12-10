@@ -439,6 +439,10 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 }
 
 @media screen and (max-width: 479px) {
+    .item-content-info-card {
+        min-height: unset;
+    }
+
     .item-content .mdl-card__supporting-text {
         padding: 16px;
     }
