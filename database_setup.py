@@ -22,6 +22,17 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
 
+    # Approach towards JSONifying and presenting data was made possible with
+    # help from the following Stack Overflow post and responses:
+    # https://stackoverflow.com/q/28910217
+    def serialize(self, items):
+        """Serializes category data for use on a JSON endpoint."""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'items': [item.serialize() for item in items if item.cat_id == self.id]
+        }
+
 class Item(Base):
     """Model class for storing an item."""
     __tablename__ = 'item'
@@ -34,6 +45,15 @@ class Item(Base):
     category = relationship(Category)
     user_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
+
+    def serialize(self):
+        """Serializes item data for use on a JSON endpoint."""
+        return {
+            'cat_id': self.cat_id,
+            'id': self.id,
+            'name': self.name,
+            'description': self.description
+        }
 
 # Create (if it doesn't exist) and connect to the database
 engine = create_engine('sqlite:///catalog.db')

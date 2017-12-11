@@ -8,7 +8,7 @@ import string
 import json
 
 from flask import Flask, render_template, abort, redirect, url_for, request
-from flask import session as login_session, make_response, flash
+from flask import session as login_session, make_response, flash, jsonify
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker
 from oauth2client import client
@@ -31,6 +31,18 @@ app = Flask(__name__)
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     session.close()
+
+# API endpoint that returns JSONified catalog data
+@app.route('/catalog.json')
+def catalog_json():
+    # Get the categories
+    categories = session.query(Category).all()
+
+    # Get the items
+    items = session.query(Item).all()
+
+    # Return the JSONified data
+    return jsonify(categories=[category.serialize(items) for category in categories])
 
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
