@@ -44,6 +44,34 @@ def catalog_json():
     # Return the JSONified data
     return jsonify(categories=[category.serialize(items) for category in categories])
 
+# API endpoint that returns JSONified category data (if the category exists)
+@app.route('/catalog/<category_arg>.json')
+def category_json(category_arg):
+    # Check if all characters in the supplied argument are lowercase. Python
+    # docs and the following Stack Overflow post were used as references:
+    # https://stackoverflow.com/a/33883584
+    if category_arg.islower():
+        pass
+    else:
+        # Convert the supplied argument to lowercase
+        category_arg = category_arg.lower()
+
+        # Redirect back to the endpoint with the lowercased argument
+        return redirect(url_for('category_json', category_arg=category_arg))
+
+    # Try getting the category
+    category = session.query(Category).filter(Category.name.ilike(category_arg)).first()
+
+    # If the category doesn't exist, send a 404 error code
+    if category is None:
+        abort(404)
+
+    # Get the items
+    items = session.query(Item).all()
+
+    # Return the JSONified data
+    return jsonify(category=category.serialize(items))
+
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
 def show_login():
