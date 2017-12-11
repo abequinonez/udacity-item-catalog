@@ -78,7 +78,7 @@ def item_json(category_arg, item_arg):
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
 def show_login():
-    # If the user is already logged in, redirect them to the login page
+    # If the user is already logged in, redirect them to the home page
     if login_session.get('username') is not None:
         flash('You are already logged in!')
         return redirect(url_for('index'))
