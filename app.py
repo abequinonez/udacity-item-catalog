@@ -33,7 +33,7 @@ def shutdown_session(exception=None):
     session.close()
 
 # API endpoint that returns JSONified catalog data
-@app.route('/catalog.json')
+@app.route('/api/catalog')
 def catalog_json():
     # Get the categories
     categories = session.query(Category).all()
@@ -45,7 +45,7 @@ def catalog_json():
     return jsonify(categories=[category.serialize(items) for category in categories])
 
 # API endpoint that returns JSONified category data (if the category exists)
-@app.route('/catalog/<category_arg>.json')
+@app.route('/api/catalog/<category_arg>')
 def category_json(category_arg):
     # Check if all characters in the supplied argument are lowercase. Python
     # docs and the following Stack Overflow post were used as references:
@@ -74,7 +74,7 @@ def category_json(category_arg):
 
 # API endpoint that returns JSONified item data (if the item exists under the
 # supplied category).
-@app.route('/catalog/<category_arg>/<item_arg>.json')
+@app.route('/api/catalog/<category_arg>/<item_arg>')
 def item_json(category_arg, item_arg):
     # Check if all characters in the supplied arguments are lowercase. Python
     # docs and the following Stack Overflow post were used as references:
