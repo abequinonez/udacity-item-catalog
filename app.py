@@ -386,6 +386,20 @@ def logout():
     flash(flash_message)
     return response
 
+# Show the delete account page (if the user is logged in)
+@app.route('/delete-account')
+def delete_account():
+    # If the user is not logged in, redirect them to the login page
+    if 'username' not in login_session:
+        flash('Please login first')
+        return redirect(url_for('show_login'))
+
+    # Get the categories
+    categories = session.query(Category).all()
+
+    # Show the page
+    return render_template('delete_account.html', categories=categories)
+
 # Show the home page (displays most recently added item listings)
 @app.route('/')
 def index():
