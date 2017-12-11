@@ -47,18 +47,6 @@ def catalog_json():
 # API endpoint that returns JSONified category data (if the category exists)
 @app.route('/api/catalog/<category_arg>')
 def category_json(category_arg):
-    # Check if all characters in the supplied argument are lowercase. Python
-    # docs and the following Stack Overflow post were used as references:
-    # https://stackoverflow.com/a/33883584
-    if category_arg.islower():
-        pass
-    else:
-        # Convert the supplied argument to lowercase
-        category_arg = category_arg.lower()
-
-        # Redirect back to the endpoint with the lowercased argument
-        return redirect(url_for('category_json', category_arg=category_arg))
-
     # Try getting the category
     category = session.query(Category).filter(Category.name.ilike(category_arg)).first()
 
@@ -76,19 +64,6 @@ def category_json(category_arg):
 # supplied category).
 @app.route('/api/catalog/<category_arg>/<item_arg>')
 def item_json(category_arg, item_arg):
-    # Check if all characters in the supplied arguments are lowercase. Python
-    # docs and the following Stack Overflow post were used as references:
-    # https://stackoverflow.com/a/33883584
-    if category_arg.islower() and item_arg.islower():
-        pass
-    else:
-        # Convert the supplied arguments to lowercase
-        category_arg = category_arg.lower()
-        item_arg = item_arg.lower()
-
-        # Redirect back to the endpoint with the lowercased arguments
-        return redirect(url_for('item_json', category_arg=category_arg, item_arg=item_arg))
-
     # Try getting the item
     item = session.query(Item).filter(Category.name.ilike(category_arg), Item.name.ilike(item_arg)).first()
 
