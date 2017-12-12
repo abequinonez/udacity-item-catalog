@@ -56,6 +56,16 @@ function gSignOut() {
         logoutPostRequest();
     });
 }
+
+/*
+Disconnect the current Google user from the application (revoke access). Then
+send a POST request to the server to delete the user's application data.
+*/
+function gDisconnect() {
+    auth2.disconnect().then(function() {
+        // TODO: Add function that sends POST request to server
+    });
+}
 // End of Google Sign-In code
 
 /*
@@ -257,5 +267,10 @@ $('#account-delete-button').click(function() {
         $(this).prop('disabled', true);
         $('#account-delete-checkbox').parent()[0].MaterialCheckbox.disable();
         // TODO: Add provider access revocation functions
+        if (authProvider === 'google') {
+            gDisconnect();
+        } else if (authProvider === 'facebook') {
+            // TODO: Add facebook access revocation function
+        }
     }
 });
