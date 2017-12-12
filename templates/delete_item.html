@@ -7,7 +7,7 @@
                     <h2 class="mdl-card__title-text">Delete an item</h2>
                 </div>
                 <div class="mdl-card__supporting-text">
-                    <span class="mdl-typography--font-light mdl-typography--subhead">Are you sure you want to delete {{item.name}}?</span>
+                    <p>Are you sure you want to delete {{item.name}}?</p>
                 </div>
                 <div class="mdl-card__actions">
                     <a href="{{url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower())}}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">Cancel</a>
