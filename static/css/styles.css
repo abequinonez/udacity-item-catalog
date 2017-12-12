@@ -278,7 +278,8 @@ down on pages with short content, at least on initial page load.
     padding-bottom: 0;
 }
 
-.item-content-info {
+.item-content-info,
+.item-content-description-heading {
     color: rgb(66,66,66);
 }
 
