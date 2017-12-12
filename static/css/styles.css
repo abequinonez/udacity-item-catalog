@@ -173,7 +173,8 @@ down on pages with short content, at least on initial page load.
 .new-item,
 .edit-item,
 .delete-item,
-.login {
+.login,
+.delete-account {
     margin-top: 44px;
     margin-bottom: 36px;
     padding-left: 16px;
@@ -184,7 +185,8 @@ down on pages with short content, at least on initial page load.
 .new-item .mdl-grid,
 .edit-item .mdl-grid,
 .delete-item .mdl-grid,
-.login .mdl-grid {
+.login .mdl-grid,
+.delete-account .mdl-grid {
     max-width: 620px;
 }
 
@@ -208,7 +210,8 @@ down on pages with short content, at least on initial page load.
 
 /* Make the delete button red with white text */
 .item-content .delete-button,
-.delete-item .delete-button {
+.delete-item .delete-button,
+.delete-account .delete-button {
     background-color: #f44336;
     color: #fff;
 }
@@ -221,7 +224,8 @@ down on pages with short content, at least on initial page load.
 .new-item .mdl-card__title-text,
 .edit-item .mdl-card__title-text,
 .delete-item .mdl-card__title-text,
-.login .mdl-card__title-text {
+.login .mdl-card__title-text,
+.delete-account .mdl-card__title-text {
     color: rgb(66,66,66);
     font-weight: 700;
 }
@@ -264,11 +268,13 @@ down on pages with short content, at least on initial page load.
     color: rgba(0,0,0,.54);
 }
 
-.item-content li {
+.item-content li,
+.delete-account li {
     padding-bottom: 8px;
 }
 
-.item-content li:last-of-type {
+.item-content li:last-of-type,
+.delete-account li:last-of-type {
     padding-bottom: 0;
 }
 
@@ -285,6 +291,14 @@ down on pages with short content, at least on initial page load.
     font-size: 18px;
     line-height: 28px;
     hyphens: auto;
+}
+
+.delete-account p,
+.delete-account ol,
+.delete-account .mdl-checkbox__label {
+    color: rgb(66,66,66);
+    font-size: 16px;
+    font-weight: 300;
 }
 
 .mdl-mini-footer {

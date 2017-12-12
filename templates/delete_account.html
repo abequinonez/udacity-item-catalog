@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="delete-account">
+        <div class="mdl-grid mdl-grid--no-spacing">
+            <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title">
+                    <h2 class="mdl-card__title-text">Delete account</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                    <p>
+                        Are you sure you want to delete your account?
+                    </p>
+                    <ol>
+                        <li>Your {{session['provider']|capitalize}} account will be disconnected from Noodlelog</li>
+                        <li>All of your Noodlelog data (including your items) will be deleted</li>
+                    </ol>
+                    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="account-delete-checkbox">
+                        <input type="checkbox" id="account-delete-checkbox" class="mdl-checkbox__input">
+                        <span class="mdl-checkbox__label">Check here to confirm</span>
+                    </label>
+                </div>
+                <div class="mdl-card__actions">
+                    <a href="{{url_for('index')}}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp">Cancel</a>
+                    <button type="button" id="account-delete-buton" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-shadow--2dp delete-button" disabled>Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
