@@ -230,3 +230,18 @@ function logoutPostRequest() {
         }
     });
 }
+
+/*
+Click handler for the #account-delete-checkbox. Checks the state of the
+checkbox when clicked. If checked, enables the #account-delete-button.
+Otherwise disables it. Use of the jQuery .prop() method was made possible with
+help from the following Stack Overflow post:
+https://stackoverflow.com/a/13626565
+*/
+$('#account-delete-checkbox').click(function() {
+    if ($(this).prop('checked')) {
+        $('#account-delete-button').prop('disabled', false);
+    } else {
+        $('#account-delete-button').prop('disabled', true);
+    }
+});
