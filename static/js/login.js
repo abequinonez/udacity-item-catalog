@@ -245,3 +245,17 @@ $('#account-delete-checkbox').click(function() {
         $('#account-delete-button').prop('disabled', true);
     }
 });
+
+/*
+Click handler for the #account-delete-button. First checks if the
+#account-delete-checkbox is checked when clicked. If checked, both the
+checkbox and the button itself are disabled. Then calls the provider-specific
+access revocation function.
+*/
+$('#account-delete-button').click(function() {
+    if ($('#account-delete-checkbox').prop('checked')) {
+        $(this).prop('disabled', true);
+        $('#account-delete-checkbox').parent()[0].MaterialCheckbox.disable();
+        // TODO: Add provider access revocation functions
+    }
+});
