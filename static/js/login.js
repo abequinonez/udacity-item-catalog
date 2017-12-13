@@ -169,22 +169,36 @@ Disconnect the current Facebook user from the application (revoke access).
 Then send a POST request to the server to delete the user's application data.
 */
 function fbDisconnect() {
-    // First get the user's status
-    FB.getLoginStatus(function(response) {
-        // If the user is connected, call FB.api() with a DELETE request
-        if (response.status === 'connected') {
-            FB.api('/me/permissions', 'DELETE', function(response) {
-                if (response.success) {
-                    // TODO: Add function that sends POST request to server
-                } else {
-                    console.log('Error disconnecting Facebook account.');
+    /*
+    Perform an initial FB.api() call as a means of testing for an internet
+    connection.
+    */
+    FB.api('/me', function(response) {
+        /*
+        Use of the in operator made possible with help from the following
+        Stack Overflow post and responses: https://stackoverflow.com/q/7972446
+        */
+        if (!('error' in response) || (response.error.message !== 'unknown error')) {
+            // Get the user's status
+            FB.getLoginStatus(function(response) {
+                // If the user is connected, call FB.api() with a DELETE request
+                if (response.status === 'connected') {
+                    FB.api('/me/permissions', 'DELETE', function(response) {
+                        if (response.success) {
+                            // TODO: Add function that sends POST request to server
+                        } else {
+                            console.log('Error disconnecting Facebook account.');
+                        }
+                    });
+                }
+
+                // Otherwise show an error message
+                else {
+                    console.log('Error. Try re-logging into Facebook and try again.');
                 }
             });
-        }
-
-        // Otherwise show an error message
-        else {
-            console.log('Error. Try re-logging into Facebook and try again.');
+        } else {
+            console.log('Failed to connect to Facebook.');
         }
     });
 }
