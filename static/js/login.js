@@ -142,6 +142,31 @@ function fbLogout() {
         }
     });
 }
+
+/*
+Disconnect the current Facebook user from the application (revoke access).
+Then send a POST request to the server to delete the user's application data.
+*/
+function fbDisconnect() {
+    // First get the user's status
+    FB.getLoginStatus(function(response) {
+        // If the user is connected, call FB.api() with a DELETE request
+        if (response.status === 'connected') {
+            FB.api('/me/permissions', 'DELETE', function(response) {
+                if (response.success) {
+                    // TODO: Add function that sends POST request to server
+                } else {
+                    console.log('Error disconnecting Facebook account.');
+                }
+            });
+        }
+
+        // Otherwise show an error message
+        else {
+            console.log('Error. Try re-logging into Facebook and try again.');
+        }
+    });
+}
 // End of Facebook Login code
 
 /*
@@ -266,11 +291,12 @@ $('#account-delete-button').click(function() {
     if ($('#account-delete-checkbox').prop('checked')) {
         $(this).prop('disabled', true);
         $('#account-delete-checkbox').parent()[0].MaterialCheckbox.disable();
-        // TODO: Add provider access revocation functions
+
+        // Call the appropriate provider access revocation function
         if (authProvider === 'google') {
             gDisconnect();
         } else if (authProvider === 'facebook') {
-            // TODO: Add facebook access revocation function
+            fbDisconnect();
         }
     }
 });
