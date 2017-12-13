@@ -51,7 +51,7 @@ of signing out of Google). Then send a POST request to the server to fully
 sign them out of the application (clear the login_session).
 */
 function gSignOut() {
-    auth2.signOut().then(function () {
+    auth2.signOut().then(function() {
         // Send the POST request to the server
         logoutPostRequest();
     });
