@@ -62,9 +62,30 @@ Disconnect the current Google user from the application (revoke access). Then
 send a POST request to the server to delete the user's application data.
 */
 function gDisconnect() {
-    auth2.disconnect().then(function() {
-        // TODO: Add function that sends POST request to server
-    });
+    /*
+    Check if the user is both signed in to Google and connected to the
+    application.
+    */
+    if (auth2.isSignedIn.get()) {
+        /*
+        Force a refresh of the access token as a means of testing for an
+        internet connection. Thus, the .disconnect() method will only run when
+        the user is signed in to Google, connected to the application, and
+        able to connect to the Google Sign-In API.
+        */
+        auth2.currentUser.get().reloadAuthResponse().then(function() {
+            auth2.disconnect().then(function() {
+                // TODO: Add function that sends POST request to server
+            });
+        }, function(error) {
+            console.log('Failed to connect to Google: ' + error.error);
+        });
+    }
+
+    // Otherwise show an error message
+    else {
+        console.log('Error. Try re-logging into Google and try again.');
+    }
 }
 // End of Google Sign-In code
 
