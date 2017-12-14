@@ -25,6 +25,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+# Assign an instance of the Flask class to the app variable
 app = Flask(__name__)
 
 # Close the session after each request
