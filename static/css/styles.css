@@ -312,6 +312,15 @@ down on pages with short content, at least on initial page load.
     font-weight: 300;
 }
 
+.delete-account .mdl-card__actions {
+    min-height: 52px;
+}
+
+#delete-account-login-spinner {
+    display: none;
+    vertical-align: middle;
+}
+
 .mdl-mini-footer {
     background-color: #3c444a;
     color: #bbbbbb;

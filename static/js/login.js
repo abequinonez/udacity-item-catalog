@@ -329,6 +329,9 @@ $('#account-delete-button').click(function() {
         $(this).prop('disabled', true);
         $('#account-delete-checkbox').parent()[0].MaterialCheckbox.disable();
 
+        // Hide the buttons on the account delete page
+        hideAccountDeleteButtons();
+
         // Call the appropriate provider access revocation function
         if (authProvider === 'google') {
             gDisconnect();
@@ -337,6 +340,16 @@ $('#account-delete-button').click(function() {
         }
     }
 });
+
+/*
+Hide the buttons (both the cancel and the delete button) and show the MDL
+loading spinner on the account delete page.
+*/
+function hideAccountDeleteButtons() {
+    $('.delete-account .mdl-button').attr('style', 'display: none');
+    $('.delete-account .mdl-card__actions').attr('style', 'text-align: center');
+    $('#delete-account-login-spinner').attr('style', 'display: inline-block');
+}
 
 /*
 Send a POST request to the server to delete the user's data from the
