@@ -80,12 +80,14 @@ function gDisconnect() {
             });
         }, function(error) {
             console.log('Failed to connect to Google: ' + error.error);
+            resetAccountDeleteComponents();
         });
     }
 
     // Otherwise show an error message
     else {
         console.log('Error. Try re-logging into Google and try again.');
+        resetAccountDeleteComponents();
     }
 }
 // End of Google Sign-In code
@@ -190,6 +192,7 @@ function fbDisconnect() {
                             deleteAccountPostRequest();
                         } else {
                             console.log('Error disconnecting Facebook account.');
+                            resetAccountDeleteComponents();
                         }
                     });
                 }
@@ -197,10 +200,12 @@ function fbDisconnect() {
                 // Otherwise show an error message
                 else {
                     console.log('Error. Try re-logging into Facebook and try again.');
+                    resetAccountDeleteComponents();
                 }
             });
         } else {
             console.log('Failed to connect to Facebook.');
+            resetAccountDeleteComponents();
         }
     });
 }
@@ -348,7 +353,25 @@ loading spinner on the account delete page.
 function hideAccountDeleteButtons() {
     $('.delete-account .mdl-button').attr('style', 'display: none');
     $('.delete-account .mdl-card__actions').attr('style', 'text-align: center');
-    $('#delete-account-login-spinner').attr('style', 'display: inline-block');
+    $('#delete-account-spinner').attr('style', 'display: inline-block');
+}
+
+/*
+If there's an error or problem either in disconnecting the user's provider
+account from the application or in contacting the server, reset the components
+on the account delete page (after a delay).
+*/
+function resetAccountDeleteComponents() {
+    setTimeout(function() {
+        // Show the buttons and hide the MDL spinner
+        $('#delete-account-spinner').attr('style', 'display: none');
+        $('.delete-account .mdl-card__actions').attr('style', 'text-align: start');
+        $('.delete-account .mdl-button').attr('style', 'display: inline-block');
+
+        // Uncheck and enable the #account-delete-checkbox
+        $('#account-delete-checkbox').parent()[0].MaterialCheckbox.uncheck();
+        $('#account-delete-checkbox').parent()[0].MaterialCheckbox.enable();
+    }, 1000);
 }
 
 /*
@@ -376,6 +399,7 @@ function deleteAccountPostRequest() {
         // In case the request fails
         error: function() {
             console.log('Error deleting account.');
+            resetAccountDeleteComponents();
         }
     });
 }
