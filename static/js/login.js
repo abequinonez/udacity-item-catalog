@@ -75,7 +75,8 @@ function gDisconnect() {
         */
         auth2.currentUser.get().reloadAuthResponse().then(function() {
             auth2.disconnect().then(function() {
-                // TODO: Add function that sends POST request to server
+                // Send the POST request to the server
+                deleteAccountPostRequest();
             });
         }, function(error) {
             console.log('Failed to connect to Google: ' + error.error);
@@ -185,7 +186,8 @@ function fbDisconnect() {
                 if (response.status === 'connected') {
                     FB.api('/me/permissions', 'DELETE', function(response) {
                         if (response.success) {
-                            // TODO: Add function that sends POST request to server
+                            // Send the POST request to the server
+                            deleteAccountPostRequest();
                         } else {
                             console.log('Error disconnecting Facebook account.');
                         }
@@ -335,3 +337,32 @@ $('#account-delete-button').click(function() {
         }
     }
 });
+
+/*
+Send a POST request to the server to delete the user's data from the
+application. Also sends the appropriate state token received from the server.
+*/
+function deleteAccountPostRequest() {
+    $.ajax({
+        type: 'POST',
+
+        // Send the state token with the request
+        url: `/delete-account?state=${deleteAccountState}`,
+
+        // Include an X-Requested-With header in case of a CSRF attack
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        contentType: 'application/octet-stream; charset=utf-8',
+
+        // On success, send the user to the home page
+        success: function() {
+            window.location.href = '/';
+        },
+
+        // In case the request fails
+        error: function() {
+            console.log('Error deleting account.');
+        }
+    });
+}
