@@ -386,19 +386,83 @@ def logout():
     flash(flash_message)
     return response
 
-# Show the delete account page (if the user is logged in)
-@app.route('/delete-account')
+# Delete account. If the route receives a GET request, it will show the delete
+# account page with the corresponding client-side code to disconnect from the
+# application. Otherwise, if the route receives a POST request (which is sent
+# after the user disconnects their provider account), it will delete the
+# user's data from the database.
+@app.route('/delete-account', methods=['GET', 'POST'])
 def delete_account():
     # If the user is not logged in, redirect them to the login page
     if 'username' not in login_session:
         flash('Please login first')
         return redirect(url_for('show_login'))
 
-    # Get the categories
-    categories = session.query(Category).all()
+    # If a POST request is received, delete the user's data and commit the
+    # changes.
+    if request.method == 'POST':
+        # Make sure the X-Requested-With header was included in the request
+        if not request.headers.get('X-Requested-With'):
+            print('Missing header')
+            response = make_response(json.dumps('Missing header'), 403)
+            response.headers['Content-Type'] = 'application/json'
+            return response
 
-    # Show the page
-    return render_template('delete_account.html', categories=categories)
+        # Check to see if there's a mismatch between the state token sent in the
+        # request and the state token stored in the login_session object.
+        if request.args.get('state') != login_session['delete_account_state']:
+            print('Invalid state token')
+            response = make_response(json.dumps('Invalid state token'), 401)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+
+        # Get the user
+        user = session.query(User).filter_by(email=login_session['email']).first()
+
+        # If for some reason the user doesn't exist, send a 500 error code
+        if user is None:
+            print('Error querying database')
+            response = make_response(json.dumps('Error querying database'), 500)
+            response.headers['Content-Type'] = 'application/json'
+            return response
+
+        # Get the items added by the user
+        user_items = session.query(Item).filter_by(user=user).all()
+
+        # Delete each of the user's items from the database
+        for item in user_items:
+            session.delete(item)
+
+        # Now delete the user from the database
+        session.delete(user)
+
+        # Commit the changes
+        session.commit()
+
+        # Clear the login_session
+        login_session.clear()
+
+        # Prepare and send the response
+        print('Account deleted')
+        response = make_response(json.dumps('Account deleted'), 200)
+        response.headers['Content-Type'] = 'application/json'
+        flash('Account deleted')
+        return response
+
+    # Otherwise show the delete account page
+    else:
+        # Get the categories
+        categories = session.query(Category).all()
+
+        # Create a state token using random letters and numbers
+        state = ''.join(random.choice(string.ascii_uppercase + string.digits)
+                for x in range(32))
+
+        # Store the state token in the login_session object
+        login_session['delete_account_state'] = state
+
+        # Show the page
+        return render_template('delete_account.html', categories=categories, state=state)
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')
