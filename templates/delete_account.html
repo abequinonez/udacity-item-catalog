@@ -1,4 +1,10 @@
 {% extends "layout.html" %}
+{% block scripts %}
+    <!-- Declare a JavaScript global variable containing the state token -->
+    <script>
+        const deleteAccountState = '{{state}}';
+    </script>
+{% endblock %}
 {% block content %}
     <div class="delete-account">
         <div class="mdl-grid mdl-grid--no-spacing">
