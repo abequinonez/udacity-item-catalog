@@ -157,21 +157,20 @@ def addSampleData():
         name='Hae Mee',
         # Description source: https://en.wikipedia.org/wiki/Hae_mee
         description=(
-            'Hae mee (also called prawn mee，台罗拼音：he5-mi7) is a noodle soup '
-            'dish popular in Malaysia and Singapore. It can also refer to a '
-            'fried noodle dish known as Hokkien mee. The dish\'s name '
-            'literally means "prawn noodles" in Hokkien. Egg noodles are '
-            'served in richly flavoured dark soup stock with prawns, pork '
-            'slices, fish cake slices and bean sprouts, topped with fried '
-            'shallots and spring onion. The stock is made using dried '
-            'shrimp, plucked heads of prawns, white pepper, garlic and other '
-            'spices. Traditionally, lard is added to the soup, but this is '
-            'now less common due to health concerns. A "dry" (without soup) '
-            'version is also available; this version usually involves '
-            'flavouring the noodles and toppings with vinegar, soy sauce, '
-            'oil and chili, if desired. The dish is also usually served with '
-            'freshly cut red chili slices in light soy sauce and lime '
-            'juice.'),
+            'Hae mee (also called prawn mee) is a noodle soup dish popular '
+            'in Malaysia and Singapore. It can also refer to a fried noodle '
+            'dish known as Hokkien mee. The dish\'s name literally means '
+            '"prawn noodles" in Hokkien. Egg noodles are served in richly '
+            'flavoured dark soup stock with prawns, pork slices, fish cake '
+            'slices and bean sprouts, topped with fried shallots and spring '
+            'onion. The stock is made using dried shrimp, plucked heads of '
+            'prawns, white pepper, garlic and other spices. Traditionally, '
+            'lard is added to the soup, but this is now less common due to '
+            'health concerns. A "dry" (without soup) version is also '
+            'available; this version usually involves flavouring the noodles '
+            'and toppings with vinegar, soy sauce, oil and chili, if '
+            'desired. The dish is also usually served with freshly cut red '
+            'chili slices in light soy sauce and lime juice.'),
         image_url=(
             'https://i1.wp.com/angsarap.net/wp-content/uploads/2014/12/'
             'Penang-Prawn-Mee-Wide.jpg'))
