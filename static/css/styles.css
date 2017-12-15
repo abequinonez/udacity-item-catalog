@@ -36,9 +36,18 @@ body {
     line-height: 1.2;
 }
 
+.mdl-layout__drawer {
+  width: 270px;
+  left: -30px;
+}
+
+.mdl-layout__drawer.is-visible {
+  left: 0;
+}
+
 .profile-info {
     margin-top: 12px;
-    padding: 16px 40px;
+    padding: 16px 16px 12px;
     background-color: #3c444a;
     line-height: 1;
 }
@@ -48,10 +57,41 @@ body {
     border-radius: 40px;
 }
 
-.profile-name,
+.profile-email-container {
+    display: flex;
+    padding-top: 5px;
+}
+
 .profile-email {
-    padding-top: 8px;
+    margin: auto 0;
+    width: 78%;
+}
+
+.profile-delete-dropdown {
+    position: relative;
+    width: 22%;
+    text-align: right;
+}
+
+.profile-delete-dropdown .mdl-button {
+    margin: 0;
+    height: 24px;
+    min-width: 24px;
+    width: 24px;
+}
+
+.profile-name,
+.profile-email,
+.profile-delete-dropdown {
     color: #fff;
+}
+
+.profile-name {
+    padding-top: 10px;
+}
+
+.profile-email {
+    font-weight: 300;
 }
 
 .profile-name,
@@ -464,7 +504,6 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
 
     .profile-info {
         margin-top: 0;
-        padding: 16px;
     }
 
     #new-item-button {

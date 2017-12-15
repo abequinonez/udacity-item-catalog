@@ -73,7 +73,17 @@
                         <img src="{{session['picture']}}">
                     </div>
                     <div class="profile-name">{{session['username']}}</div>
-                    <div class="profile-email">{{session['email']|truncate(24, True, '...', 0)}}</div>
+                    <div class="profile-email-container">
+                        <div class="profile-email">{{session['email']|truncate(24, True, '...', 0)}}</div>
+                        <div class="profile-delete-dropdown">
+                            <button id="profile-delete-dropdown-btn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                                <i class="material-icons">arrow_drop_down</i>
+                            </button>
+                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="profile-delete-dropdown-btn">
+                                <li><a class="mdl-menu__item" href="{{url_for('delete_account')}}">Delete Account</a></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             {%  endif %}
             <nav class="mdl-navigation">
