@@ -120,6 +120,99 @@ def addSampleData():
     session.add(item4)
     session.commit()
 
+    # Add an item to the Vietnamese category
+    item5 = Item(
+        user=user1,
+        cat_id=5,
+        name='Pho',
+        # Description source: https://en.wikipedia.org/wiki/Pho
+        description=(
+            'Phở or pho (pronounced variously as /fɜːr/, /fʌ/, or /foʊ/; '
+            'Vietnamese: [fəː˧˩˧]) is a Vietnamese noodle soup consisting of '
+            'broth, rice noodles called bánh phở, a few herbs, and meat, '
+            'primarily made with either beef (phở bò) or chicken (phở gà). '
+            'Pho is a popular street food in Vietnam and the specialty of a '
+            'number of restaurant chains around the world. Pho originated in '
+            'the early 20th century in northern Vietnam, and was popularized '
+            'throughout the rest of the world by refugees after the Vietnam '
+            'War. Because pho\'s origins are poorly documented, there is '
+            'significant disagreement over the cultural influences that led '
+            'to its development in Vietnam, as well as the etymology of the '
+            'word itself. The Hanoi and Saigon styles of pho differ by '
+            'noodle width, sweetness of broth, and choice of herbs. A '
+            'related noodle soup, bún bò Huế, is associated with Huế in '
+            'central Vietnam.'),
+        image_url=(
+            'https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/'
+            'recipes/kitchen-basics/v/800/vietnamese_beef_noodle_soup.ashx?'
+            'vd=20171018T134637Z&hash='
+            '7D6E1C193DFC641586A7E9A45B11FA048D42542F'))
+    session.add(item5)
+    session.commit()
+
+    # Add an item to the Other category
+    item6 = Item(
+        user=user1,
+        cat_id=6,
+        name='Hae Mee',
+        # Description source: https://en.wikipedia.org/wiki/Hae_mee
+        description=(
+            'Hae mee (also called prawn mee，台罗拼音：he5-mi7) is a noodle soup '
+            'dish popular in Malaysia and Singapore. It can also refer to a '
+            'fried noodle dish known as Hokkien mee. The dish\'s name '
+            'literally means "prawn noodles" in Hokkien. Egg noodles are '
+            'served in richly flavoured dark soup stock with prawns, pork '
+            'slices, fish cake slices and bean sprouts, topped with fried '
+            'shallots and spring onion. The stock is made using dried '
+            'shrimp, plucked heads of prawns, white pepper, garlic and other '
+            'spices. Traditionally, lard is added to the soup, but this is '
+            'now less common due to health concerns. A "dry" (without soup) '
+            'version is also available; this version usually involves '
+            'flavouring the noodles and toppings with vinegar, soy sauce, '
+            'oil and chili, if desired. The dish is also usually served with '
+            'freshly cut red chili slices in light soy sauce and lime '
+            'juice.'),
+        image_url=(
+            'https://i1.wp.com/angsarap.net/wp-content/uploads/2014/12/'
+            'Penang-Prawn-Mee-Wide.jpg'))
+    session.add(item6)
+    session.commit()
+
+    # Add another item to the Japanese category
+    item7 = Item(
+        user=user1,
+        cat_id=2,
+        name='Pork Ramen',
+        # Description information source:
+        # https://www.williams-sonoma.com/recipe/pork-ramen.html
+        description=(
+            'Ramen noodles served in chicken broth and topped with braised '
+            'boneless pork. Additional toppings include eggs, green onions, '
+            'and garlic cloves. Soy sauce and sesame oil are added for '
+            'seasoning.'),
+        image_url=(
+            'https://www.williams-sonoma.com/wsimgs/rk/images/dp/recipe/'
+            '201707/0063/img97l.jpg'))
+    session.add(item7)
+    session.commit()
+
+    # Add another item to the Other category
+    item8 = Item(
+        user=user1,
+        cat_id=6,
+        name='Chicken Curry Laksa',
+        # Description information source:
+        # http://themacadames.com/2014/07/12/chicken-curry-laksa/
+        description=(
+            'Egg noodles served in a spicy coconut-based curry soup and '
+            'topped with chicken. Other toppings include eggplant, bean '
+            'sprouts, and tofu puffs.'),
+        image_url=(
+            'https://i2.wp.com/themacadames.com/wp-content/uploads/2014/07/'
+            'Laksa-Lead-image.jpg'))
+    session.add(item8)
+    session.commit()
+
     print('Sample data added!')
 
 # Populate the database with sample data (if it hasn't already been added)
