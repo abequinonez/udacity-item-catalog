@@ -30,12 +30,6 @@ body {
     border-bottom: 4px solid #ffc107;
 }
 
-.mdl-layout__drawer .mdl-layout-title {
-    padding-top: 16px;
-    font-size: 29px;
-    line-height: 1.2;
-}
-
 .mdl-layout__drawer {
   width: 270px;
   left: -30px;
@@ -43,6 +37,12 @@ body {
 
 .mdl-layout__drawer.is-visible {
   left: 0;
+}
+
+.mdl-layout__drawer .mdl-layout-title {
+    padding: 16px 0 0 16px;
+    font-size: 29px;
+    line-height: 1.2;
 }
 
 .profile-info {
@@ -105,6 +105,10 @@ body {
 
 .mdl-layout__drawer span.mdl-navigation__link:hover {
     background-color: unset !important;
+}
+
+.mdl-layout__drawer span.mdl-navigation__link {
+    padding: 16px !important;
 }
 
 /*
