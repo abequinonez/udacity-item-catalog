@@ -476,8 +476,8 @@ def index():
 
     # Truncate each item's description for its listing
     for item in recent_items:
-        if len(item.description) > 80:
-            item.description = item.description[:80] + '...'
+        if len(item.description) > 70:
+            item.description = item.description[:70] + '...'
 
     # Create a string variable to store the page heading
     page_heading = 'Newest noodles'
@@ -499,8 +499,8 @@ def show_user_items():
 
     # Truncate each item's description for its listing
     for item in user_items:
-        if len(item.description) > 80:
-            item.description = item.description[:80] + '...'
+        if len(item.description) > 70:
+            item.description = item.description[:70] + '...'
 
     # Create a string variable to store the page heading
     page_heading = 'My noodles'
@@ -529,8 +529,8 @@ def show_category(category_arg):
 
     # Truncate each item's description for its listing
     for item in items:
-        if len(item.description) > 80:
-            item.description = item.description[:80] + '...'
+        if len(item.description) > 70:
+            item.description = item.description[:70] + '...'
 
     # Create a string variable to store the page heading
     page_heading = '{} noodles'.format(category_arg.title())
