@@ -72,7 +72,7 @@
                     <div class="profile-picture">
                         <img src="{{session['picture']}}">
                     </div>
-                    <div class="profile-name">{{session['username']}}</div>
+                    <div class="profile-name">{{session['username']|truncate(24, True, '...', 0)}}</div>
                     <div class="profile-email-container">
                         <div class="profile-email">{{session['email']|truncate(24, True, '...', 0)}}</div>
                         <div class="profile-delete-dropdown">
