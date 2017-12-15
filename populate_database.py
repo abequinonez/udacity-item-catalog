@@ -71,8 +71,8 @@ def addSampleData():
             'soy sauce. A thin slice of kamaboko, a halfmoon-shaped fish '
             'cake, is often added. Shichimi can be added to taste.'),
         image_url=(
-            'https://i.pinimg.com/736x/2a/55/d2/2a55d2e86a3bb9e814'
-            'bb46899df9b9f9--easy-poached-eggs-poached-egg-recipes.jpg'))
+            'https://japancentre-images.freetls.fastly.net/recipes/pics/733/'
+            'main/733-udon-noodles.jpg'))
     session.add(item2)
     session.commit()
 
@@ -92,8 +92,8 @@ def addSampleData():
             ', gim (laver), and zucchini are added on top of the dish as '
             'garnishes.'),
         image_url=(
-            'https://upload.wikimedia.org/wikipedia/commons/4/42/'
-            'Janchi-guksu.jpg'))
+            'http://www.futuredish.com/wp-content/uploads/2017/02/'
+            'Janchi-Guksu.png'))
     session.add(item3)
     session.commit()
 
