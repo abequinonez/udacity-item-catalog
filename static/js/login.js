@@ -37,7 +37,7 @@ function gSignInCallback(authResult) {
         // Send the authorization code to the server
         loginPostRequest(authResult['code'], '/gconnect', 'google');
     } else {
-        console.log('Failed to receive an authorization code.')
+        console.log('Failed to receive an authorization code.');
     }
 }
 
