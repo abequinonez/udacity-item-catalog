@@ -28,10 +28,12 @@ session = DBSession()
 # Assign an instance of the Flask class to the app variable
 app = Flask(__name__)
 
+
 # Close the session after each request
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     session.close()
+
 
 # API endpoint that returns JSONified catalog data
 @app.route('/api/catalog')
@@ -43,13 +45,17 @@ def catalog_json():
     items = session.query(Item).all()
 
     # Return the JSONified data
-    return jsonify(categories=[category.serialize(items) for category in categories])
+    return jsonify(
+        categories=[category.serialize(items) for category in categories])
+
 
 # API endpoint that returns JSONified category data (if the category exists)
 @app.route('/api/catalog/<category_arg>')
 def category_json(category_arg):
     # Try getting the category
-    category = session.query(Category).filter(Category.name.ilike(category_arg)).first()
+    category = (
+        session.query(Category)
+        .filter(Category.name.ilike(category_arg)).first())
 
     # If the category doesn't exist, send a 404 error code
     if category is None:
@@ -61,12 +67,16 @@ def category_json(category_arg):
     # Return the JSONified data
     return jsonify(category=category.serialize(items))
 
+
 # API endpoint that returns JSONified item data (if the item exists under the
 # supplied category).
 @app.route('/api/catalog/<category_arg>/<item_arg>')
 def item_json(category_arg, item_arg):
     # Try getting the item
-    item = session.query(Item).filter(Category.name.ilike(category_arg), Item.name.ilike(item_arg)).first()
+    item = (
+        session.query(Item)
+        .filter(Category.name.ilike(category_arg), Item.name.ilike(item_arg))
+        .first())
 
     # If the item doesn't exist (at least under the supplied category), send a
     # 404 error code.
@@ -75,6 +85,7 @@ def item_json(category_arg, item_arg):
 
     # Return the JSONified data
     return jsonify(item=item.serialize())
+
 
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
@@ -89,11 +100,12 @@ def show_login():
 
     # Create a state token using random letters and numbers
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-            for x in range(32))
+                    for x in range(32))
 
     # Store the state token in the login_session object
     login_session['state'] = state
     return render_template('login.html', categories=categories, state=state)
+
 
 # Log in using Google Sign-In
 @app.route('/gconnect', methods=['POST'])
@@ -132,15 +144,18 @@ def gconnect():
     # 401 error code.
     except:
         print('Failed to exchange authorization code for credentials.')
-        response = make_response(json.dumps('Failed to exchange authorization code for credentials.'), 401)
+        response = make_response(json.dumps(
+            'Failed to exchange authorization code for credentials.'),
+            401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # Try verifying that the access token is valid
     try:
         access_token = credentials.access_token
-        url = ('https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={}'
-              .format(access_token))
+        url = (
+            'https://www.googleapis.com/oauth2/v3/tokeninfo?access_token={}'
+            .format(access_token))
         h = httplib2.Http()
 
         # In order to use json.loads(), it was necessary to add the .decode()
@@ -152,14 +167,16 @@ def gconnect():
     # with a 500 error code.
     except:
         print('Failed to verify access token')
-        response = make_response(json.dumps('Failed to verify access token'), 500)
+        response = make_response(json.dumps(
+            'Failed to verify access token'), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # If there was an error validating the access token, send a 500 error code
     if result.get('error_description')is not None:
         print(result.get('error_description'))
-        response = make_response(json.dumps(result.get('error_description')), 500)
+        response = make_response(json.dumps(
+            result.get('error_description')), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -172,7 +189,8 @@ def gconnect():
         return response
 
     # Get the client ID from the application client secret file
-    CLIENT_ID = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['client_id']
+    CLIENT_ID = json.loads(
+        open(CLIENT_SECRET_FILE, 'r').read())['web']['client_id']
 
     # We'll use the client ID to make sure the access token is valid for this
     # application.
@@ -210,7 +228,8 @@ def gconnect():
     # If the request for user info is denied by Google, send a 500 error code
     if user_data.get('error_description')is not None:
         print(user_data.get('error_description'))
-        response = make_response(json.dumps(user_data.get('error_description')), 500)
+        response = make_response(json.dumps(
+            user_data.get('error_description')), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -236,6 +255,7 @@ def gconnect():
     response.headers['Content-Type'] = 'application/json'
     flash('Welcome, {}'.format(login_session['username']))
     return response
+
 
 # Log in using Facebook Login
 @app.route('/fbconnect', methods=['POST'])
@@ -264,8 +284,10 @@ def fbconnect():
         CLIENT_SECRET_FILE = 'fb_client_secret.json'
 
         # Get the app ID and app secret from the client secret file
-        APP_ID = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['app_id']
-        APP_SECRET = json.loads(open(CLIENT_SECRET_FILE, 'r').read())['web']['app_secret']
+        APP_ID = json.loads(
+            open(CLIENT_SECRET_FILE, 'r').read())['web']['app_id']
+        APP_SECRET = json.loads(
+            open(CLIENT_SECRET_FILE, 'r').read())['web']['app_secret']
         url = (
             'https://graph.facebook.com/oauth/access_token?grant_type='
             'fb_exchange_token&client_id={}&client_secret={}&'
@@ -277,14 +299,16 @@ def fbconnect():
     # with a 401 error code.
     except:
         print('Failed to exchange access token for long-lived token.')
-        response = make_response(json.dumps('Failed to exchange access token for long-lived token.'), 401)
+        response = make_response(json.dumps(
+            'Failed to exchange access token for long-lived token.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # If there was an error making the exchange, send a 500 error code
     if result.get('error')is not None:
         print(result['error'].get('message'))
-        response = make_response(json.dumps(result['error'].get('message')), 500)
+        response = make_response(json.dumps(
+            result['error'].get('message')), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -318,14 +342,20 @@ def fbconnect():
     # If the request for user info is denied by Facebook, send a 500 error code
     if user_data.get('error')is not None:
         print(user_data['error'].get('message'))
-        response = make_response(json.dumps(user_data['error'].get('message')), 500)
+        response = make_response(json.dumps(
+            user_data['error'].get('message')), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
     # Try getting the user's profile picture
     try:
         url = 'https://graph.facebook.com/me/picture'
-        params = {'redirect': 'false', 'width': '200', 'height': '200','access_token': token}
+        params = {
+            'redirect': 'false',
+            'width': '200',
+            'height': '200',
+            'access_token': token
+        }
         r = requests.get(url, params=params)
         picture_data = r.json()
 
@@ -337,10 +367,12 @@ def fbconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-    # If the request for the picture is denied by Facebook, send a 500 error code
+    # If the request for the picture is denied by Facebook, send a 500 error
+    # code.
     if picture_data.get('error')is not None:
         print(picture_data['error'].get('message'))
-        response = make_response(json.dumps(picture_data['error'].get('message')), 500)
+        response = make_response(json.dumps(
+            picture_data['error'].get('message')), 500)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -365,6 +397,7 @@ def fbconnect():
     flash('Welcome, {}'.format(login_session['username']))
     return response
 
+
 # Log out. After clicking on a link (which is actually a button element) with
 # the .logout-link class, the associated click handler will call the provider-
 # specific logout function that sends an AJAX POST request to this route.
@@ -386,6 +419,7 @@ def logout():
     response.headers['Content-Type'] = 'application/json'
     flash(flash_message)
     return response
+
 
 # Delete account. If the route receives a GET request, it will show the delete
 # account page with the corresponding client-side code to disconnect from the
@@ -409,8 +443,8 @@ def delete_account():
             response.headers['Content-Type'] = 'application/json'
             return response
 
-        # Check to see if there's a mismatch between the state token sent in the
-        # request and the state token stored in the login_session object.
+        # Check to see if there's a mismatch between the state token sent in
+        # the request and the state token stored in the login_session object.
         if request.args.get('state') != login_session['delete_account_state']:
             print('Invalid state token')
             response = make_response(json.dumps('Invalid state token'), 401)
@@ -418,12 +452,15 @@ def delete_account():
             return response
 
         # Get the user
-        user = session.query(User).filter_by(email=login_session['email']).first()
+        user = (
+            session.query(User)
+            .filter_by(email=login_session['email']).first())
 
         # If for some reason the user doesn't exist, send a 500 error code
         if user is None:
             print('Error querying database')
-            response = make_response(json.dumps('Error querying database'), 500)
+            response = make_response(json.dumps(
+                'Error querying database'), 500)
             response.headers['Content-Type'] = 'application/json'
             return response
 
@@ -457,13 +494,15 @@ def delete_account():
 
         # Create a state token using random letters and numbers
         state = ''.join(random.choice(string.ascii_uppercase + string.digits)
-                for x in range(32))
+                        for x in range(32))
 
         # Store the state token in the login_session object
         login_session['delete_account_state'] = state
 
         # Show the page
-        return render_template('delete_account.html', categories=categories, state=state)
+        return render_template(
+            'delete_account.html', categories=categories, state=state)
+
 
 # Show the home page (displays most recently added item listings)
 @app.route('/')
@@ -481,7 +520,10 @@ def index():
 
     # Create a string variable to store the page heading
     page_heading = 'Newest noodles'
-    return render_template('listings.html', categories=categories, items=recent_items, page_heading=page_heading)
+    return render_template(
+        'listings.html', categories=categories, items=recent_items,
+        page_heading=page_heading)
+
 
 # Show the items that have been added by the user (if the user is logged in)
 @app.route('/my-noodles')
@@ -495,7 +537,9 @@ def show_user_items():
     categories = session.query(Category).all()
 
     # Get the items added by the user
-    user_items = session.query(Item).filter_by(user_id=login_session['user_id']).order_by(desc(Item.id)).all()
+    user_items = (
+        session.query(Item).filter_by(user_id=login_session['user_id'])
+        .order_by(desc(Item.id)).all())
 
     # Truncate each item's description for its listing
     for item in user_items:
@@ -504,7 +548,10 @@ def show_user_items():
 
     # Create a string variable to store the page heading
     page_heading = 'My noodles'
-    return render_template('listings.html', categories=categories, items=user_items, page_heading=page_heading)
+    return render_template(
+        'listings.html', categories=categories, items=user_items,
+        page_heading=page_heading)
+
 
 # Show the desired category (if it exists)
 @app.route('/catalog/<category_arg>')
@@ -525,7 +572,9 @@ def show_category(category_arg):
     category_id, categories = get_category_id(category_arg)
 
     # Get the items with the matching category ID
-    items = session.query(Item).filter_by(cat_id=category_id).order_by(desc(Item.id)).all()
+    items = (
+        session.query(Item).filter_by(cat_id=category_id)
+        .order_by(desc(Item.id)).all())
 
     # Truncate each item's description for its listing
     for item in items:
@@ -534,7 +583,10 @@ def show_category(category_arg):
 
     # Create a string variable to store the page heading
     page_heading = '{} noodles'.format(category_arg.title())
-    return render_template('listings.html', categories=categories, items=items, page_heading=page_heading)
+    return render_template(
+        'listings.html', categories=categories, items=items,
+        page_heading=page_heading)
+
 
 # Show the desired item (if it exists under the supplied category)
 @app.route('/catalog/<category_arg>/<item_arg>')
@@ -550,11 +602,13 @@ def show_item(category_arg, item_arg):
         item_arg = item_arg.lower()
 
         # Redirect back to the item page with the lowercased arguments
-        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
+        return redirect(
+            url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # Try getting the requested item (along with the categories)
     item, categories = get_item(category_arg, item_arg)
     return render_template('item.html', categories=categories, item=item)
+
 
 # Add a new item
 @app.route('/catalog/new', methods=['GET', 'POST'])
@@ -586,6 +640,7 @@ def new_item():
     else:
         return render_template('new_item.html', categories=categories)
 
+
 # Edit an item
 @app.route('/catalog/<category_arg>/<item_arg>/edit', methods=['GET', 'POST'])
 def edit_item(category_arg, item_arg):
@@ -605,7 +660,8 @@ def edit_item(category_arg, item_arg):
         item_arg = item_arg.lower()
 
         # Redirect back to the edit item page with the lowercased arguments
-        return redirect(url_for('edit_item', category_arg=category_arg, item_arg=item_arg))
+        return redirect(
+            url_for('edit_item', category_arg=category_arg, item_arg=item_arg))
 
     # Try getting the requested item (along with the categories)
     item, categories = get_item(category_arg, item_arg)
@@ -613,7 +669,8 @@ def edit_item(category_arg, item_arg):
     # If the user did not add this item, redirect them to the item page
     if login_session['user_id'] != item.user_id:
         flash('Sorry, you cannot edit this item')
-        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
+        return redirect(
+            url_for('show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, process the form data
     if request.method == 'POST':
@@ -633,14 +690,19 @@ def edit_item(category_arg, item_arg):
 
         # Redirect to the item page (with a flash message)
         flash('Edit successful')
-        return redirect(url_for('show_item', category_arg=item.category.name.lower(), item_arg=item.name.lower()))
+        return redirect(url_for(
+            'show_item', category_arg=item.category.name.lower(),
+            item_arg=item.name.lower()))
 
     # Otherwise show the edit item page
     else:
-        return render_template('edit_item.html', categories=categories, item=item)
+        return render_template(
+            'edit_item.html', categories=categories, item=item)
+
 
 # Delete an item
-@app.route('/catalog/<category_arg>/<item_arg>/delete', methods=['GET', 'POST'])
+@app.route(
+    '/catalog/<category_arg>/<item_arg>/delete', methods=['GET', 'POST'])
 def delete_item(category_arg, item_arg):
     # If the user is not logged in, redirect them to the login page
     if 'username' not in login_session:
@@ -658,7 +720,8 @@ def delete_item(category_arg, item_arg):
         item_arg = item_arg.lower()
 
         # Redirect back to the delete item page with the lowercased arguments
-        return redirect(url_for('delete_item', category_arg=category_arg, item_arg=item_arg))
+        return redirect(url_for(
+            'delete_item', category_arg=category_arg, item_arg=item_arg))
 
     # Try getting the requested item (along with the categories)
     item, categories = get_item(category_arg, item_arg)
@@ -666,20 +729,24 @@ def delete_item(category_arg, item_arg):
     # If the user did not add this item, redirect them to the item page
     if login_session['user_id'] != item.user_id:
         flash('Sorry, you cannot delete this item')
-        return redirect(url_for('show_item', category_arg=category_arg, item_arg=item_arg))
+        return redirect(url_for(
+            'show_item', category_arg=category_arg, item_arg=item_arg))
 
     # If a POST request is received, delete the item and commit the change
     if request.method == 'POST':
         session.delete(item)
         session.commit()
 
-        # After deleting the item, redirect to the home page (with a flash message)
+        # After deleting the item, redirect to the home page (with a flash
+        # message).
         flash('Item deleted')
         return redirect(url_for('index'))
 
     # Otherwise show the delete item page
     else:
-        return render_template('delete_item.html', categories=categories, item=item)
+        return render_template(
+            'delete_item.html', categories=categories, item=item)
+
 
 def get_user_id(email):
     """Attempts to retrieve a user ID."""
@@ -695,6 +762,7 @@ def get_user_id(email):
     except:
         return None
 
+
 def add_user(login_session):
     """Adds a new user to the database. The user's ID is then returned."""
 
@@ -708,6 +776,7 @@ def add_user(login_session):
 
     # Return the newly added user's ID
     return new_user.id
+
 
 def get_category_id(category_arg):
     """Attempts to retrieve a category ID along with all categories."""
@@ -731,6 +800,7 @@ def get_category_id(category_arg):
     else:
         return category_id, categories
 
+
 def get_item(category_arg, item_arg):
     """Attempts to retrieve an item along with all categories."""
 
@@ -742,7 +812,10 @@ def get_item(category_arg, item_arg):
         # Case insensitive query made possible with .filter() method.
         # Developed with help from the following Stack Overflow post:
         # https://stackoverflow.com/a/2128558
-        item = session.query(Item).filter(Item.cat_id==category_id, Item.name.ilike(item_arg)).one()
+        item = (
+            session.query(Item)
+            .filter(Item.cat_id == category_id, Item.name.ilike(item_arg))
+            .one())
         return item, categories
 
     # If there's no matching item, send a 404 error code
