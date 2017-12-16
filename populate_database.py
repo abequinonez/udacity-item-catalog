@@ -15,6 +15,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+
 def addSampleData():
     """Adds sample data to the User and Item tables"""
 
