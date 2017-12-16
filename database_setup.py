@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 # Return a new base class and store its value in the Base variable
 Base = declarative_base()
 
+
 class User(Base):
     """Model class for storing user information."""
     __tablename__ = 'user'
@@ -14,6 +15,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
+
 
 class Category(Base):
     """Model class for storing a category."""
@@ -30,8 +32,11 @@ class Category(Base):
         return {
             'id': self.id,
             'name': self.name,
-            'items': [item.serialize() for item in items if item.cat_id == self.id]
+            'items': [
+                item.serialize() for item in items if item.cat_id == self.id
+            ]
         }
+
 
 class Item(Base):
     """Model class for storing an item."""
@@ -69,6 +74,7 @@ DBSession = sessionmaker(bind=engine)
 
 # Create an instance of DBSession() and store it in the session variable
 session = DBSession()
+
 
 def addCategories():
     """Adds categories to the Category table."""
