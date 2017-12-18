@@ -87,6 +87,16 @@ def item_json(category_arg, item_arg):
     return jsonify(item=item.serialize())
 
 
+# Show the privacy policy
+@app.route('/privacy-policy')
+def privacy_policy():
+    # Get the categories
+    categories = session.query(Category).all()
+
+    # Show the page
+    return render_template('privacy_policy.html', categories=categories)
+
+
 # Create an anti-forgery state token and show the login page
 @app.route('/login')
 def show_login():

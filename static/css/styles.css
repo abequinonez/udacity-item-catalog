@@ -218,7 +218,8 @@ down on pages with short content, at least on initial page load.
 .edit-item,
 .delete-item,
 .login,
-.delete-account {
+.delete-account,
+.privacy-policy {
     margin-top: 44px;
     margin-bottom: 36px;
     padding-left: 16px;
@@ -232,6 +233,10 @@ down on pages with short content, at least on initial page load.
 .login .mdl-grid,
 .delete-account .mdl-grid {
     max-width: 620px;
+}
+
+.privacy-policy .mdl-grid {
+    max-width: 860px;
 }
 
 .item-content .mdl-grid {
@@ -294,10 +299,19 @@ down on pages with short content, at least on initial page load.
 .item-content .mdl-card__supporting-text {
     padding: 20px;
     width: unset;
+}
+
+.item-content .mdl-card__supporting-text,
+.privacy-policy .mdl-card__supporting-text {
     color: inherit;
 }
 
-.item-content h4 {
+.privacy-policy .mdl-card__supporting-text {
+    padding: 40px;
+}
+
+.item-content h4,
+.privacy-policy h4 {
     margin: 0 0 16px;
 }
 
@@ -323,7 +337,8 @@ down on pages with short content, at least on initial page load.
 }
 
 .item-content-info,
-.item-content-description-heading {
+.item-content-description-heading,
+.privacy-policy-description-heading {
     color: rgb(66,66,66);
 }
 
@@ -532,7 +547,8 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
         min-height: unset;
     }
 
-    .item-content .mdl-card__supporting-text {
+    .item-content .mdl-card__supporting-text,
+    .privacy-policy .mdl-card__supporting-text {
         padding: 16px;
     }
 
