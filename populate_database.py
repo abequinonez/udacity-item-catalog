@@ -140,9 +140,7 @@ def addSampleData():
             'significant disagreement over the cultural influences that led '
             'to its development in Vietnam, as well as the etymology of the '
             'word itself. The Hanoi and Saigon styles of pho differ by '
-            'noodle width, sweetness of broth, and choice of herbs. A '
-            'related noodle soup, bún bò Huế, is associated with Huế in '
-            'central Vietnam.'),
+            'noodle width, sweetness of broth, and choice of herbs.'),
         image_url=(
             'https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/'
             'recipes/kitchen-basics/v/800/vietnamese_beef_noodle_soup.ashx?'
@@ -167,11 +165,7 @@ def addSampleData():
             'onion. The stock is made using dried shrimp, plucked heads of '
             'prawns, white pepper, garlic and other spices. Traditionally, '
             'lard is added to the soup, but this is now less common due to '
-            'health concerns. A "dry" (without soup) version is also '
-            'available; this version usually involves flavouring the noodles '
-            'and toppings with vinegar, soy sauce, oil and chili, if '
-            'desired. The dish is also usually served with freshly cut red '
-            'chili slices in light soy sauce and lime juice.'),
+            'health concerns.'),
         image_url=(
             'https://i1.wp.com/angsarap.net/wp-content/uploads/2014/12/'
             'Penang-Prawn-Mee-Wide.jpg'))
