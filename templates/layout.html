@@ -111,6 +111,7 @@
                 <div class="mdl-mini-footer__left-section">
                     <div class="mdl-logo"><a href="{{url_for('index')}}">Noodlelog</a></div>
                     <ul class="mdl-mini-footer__link-list">
+                        <li><a href="{{url_for('privacy_policy')}}">Privacy Policy</a></li>
                         <li><a href="{{url_for('show_user_items')}}">My Noodles</a></li>
                         <li><a href="{{url_for('new_item')}}">Add a New Item</a></li>
                         {% if session['username'] %}
