@@ -2,6 +2,8 @@
 
 This project, a full stack web application featuring an item catalog, was developed as part of the Udacity Full Stack Web Developer Nanodegree Program. The project guidelines called for an application with a list of items within a variety of categories, complete with a user registration and authentication system. Moreover, registered users can create, edit, and delete their own items.
 
+A live demo is available [here](https://noodlelog.herokuapp.com).
+
 ## Technology and Resources
 
 The application was built using Python, Flask, SQLAlchemy, JavaScript, HTML, and CSS. Third-party authentication and authorization is handled by Google Sign-In and Facebook Login. Other resources and technologies include Material Design Lite and jQuery.
