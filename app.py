@@ -390,9 +390,18 @@ def fbconnect():
     login_session['access_token'] = token
     login_session['fb_user_id'] = user_data['id']
     login_session['username'] = user_data['first_name']
-    login_session['email'] = user_data['email']
     login_session['picture'] = picture_data['data']['url']
     login_session['provider'] = 'facebook'
+
+    # Check if the user's email is returned by Facebook
+    if user_data.get('email') is not None:
+        login_session['email'] = user_data['email']
+
+    # If not, create an 'email' using the user's Facebook ID. Solution
+    # developed with help from the following GitHub page:
+    # https://github.com/mkdynamic/omniauth-facebook/issues/61
+    else:
+        login_session['email'] = str(user_data['id'] + '@facebook.com')
 
     # Check if the user is already in the database. If not, add them.
     user_id = get_user_id(login_session['email'])
