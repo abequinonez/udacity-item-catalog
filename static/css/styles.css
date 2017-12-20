@@ -552,21 +552,7 @@ https://blog.escapecreative.com/how-to-replace-text-with-css
         font-size: 16px;
         line-height: 26px;
     }
-}
 
-/* Show mini MDL FAB button at smaller viewports */
-@media screen and (max-width: 460px) {
-    #new-item-button {
-        margin-right: 16px;
-        margin-bottom: 16px;
-        height: 40px;
-        min-width: 40px;
-        width: 40px;
-    }
-}
-
-/* Hide the MDL FAB button when the viewport becomes too small */
-@media screen and (max-width: 319px) {
     #new-item-button {
         display: none;
     }
