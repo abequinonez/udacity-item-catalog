@@ -6,7 +6,7 @@ A live demo is available [here](https://noodlelog.herokuapp.com).
 
 ## Technology and Resources
 
-The application was built using Python, Flask, SQLAlchemy, JavaScript, HTML, and CSS. Third-party authentication and authorization is handled by Google Sign-In and Facebook Login. Other resources and technologies include Material Design Lite and jQuery.
+The application was built using Python, Flask, SQLAlchemy, JavaScript, HTML, and CSS. Third-party authentication and authorization are handled by Google Sign-In and Facebook Login. Other resources and technologies include Material Design Lite and jQuery.
 
 ## Required Software
 
